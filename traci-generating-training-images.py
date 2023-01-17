@@ -1,4 +1,4 @@
-# generates screenshots of junction states through simulations 
+# Generates screenshots and videos of junction states through simulations in SUMO
 
 import traci
 import argparse
@@ -9,15 +9,17 @@ import os
 from utils import set_sumo
 
 # load in arguments from CL
-parser = argparse.ArgumentParser(description="Generates screenshots of junction states through simulations .")
+parser = argparse.ArgumentParser(description="Generates screenshots and videos of junction states through simulations in SUMO.")
 parser.add_argument('--file', type = str, default='2023-01-13-15-51-50/osm.sumocfg', help="Filename of the SUMO config to load in.")
 parser.add_argument('--timestep', type = int, default = 1000)
 parser.add_argument('--image_timestep', type = int, default = 1, help="Timestep to generate image for.")
+parser.add_argument('--generate_movie', default=False, action='store_true', help="Flag for if you want an mp4 of the simulation runthrough.")
 
 args = parser.parse_args()
 sumocfg_file_name = args.file
 timestep = args.timestep
 image_timestep = args.image_timestep
+generate_movie = args.generate_movie
 
 # create folder for images of current run
 screenshots_dir = f"./screenshots/{datetime.now().strftime('%Y%m%d-%H%M%S')}"
@@ -39,9 +41,10 @@ for i in range(timestep):
 traci.close()
 
 # creating a video via ffmpeg of results
-(
-    ffmpeg
-    .input(f'{screenshots_dir}/*.png', pattern_type='glob', framerate=25)
-    .output(f'{screenshots_dir}/movie.mp4')
-    .run()
-)
+if generate_movie:
+    (
+        ffmpeg
+        .input(f'{screenshots_dir}/*.png', pattern_type='glob', framerate=25)
+        .output(f'{screenshots_dir}/movie.mp4')
+        .run()
+    )
