@@ -20,7 +20,7 @@ timestep = args.timestep
 image_timestep = args.image_timestep
 
 # create folder for images of current run
-screenshots_dir = f"./screenshots/{datetime.now().strftime('%Y%m%d-%H%M%S')}/"
+screenshots_dir = f"./screenshots/{datetime.now().strftime('%Y%m%d-%H%M%S')}"
 if not os.path.exists(screenshots_dir):
     os.makedirs(screenshots_dir)
 
@@ -34,5 +34,14 @@ traci.start(sumo_cmd)
 for i in range(timestep):
     traci.simulationStep() # repeat 0...n
     if (i % image_timestep == 0):
-        traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{screenshots_dir}/junction_timestep_{i}.png")
+        padded_i = str(i).zfill(len(str(timestep)))
+        traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{screenshots_dir}/junction_timestep_{padded_i}.png")
 traci.close()
+
+# creating a video via ffmpeg of results
+(
+    ffmpeg
+    .input(f'{screenshots_dir}/*.png', pattern_type='glob', framerate=25)
+    .output(f'{screenshots_dir}/movie.mp4')
+    .run()
+)
