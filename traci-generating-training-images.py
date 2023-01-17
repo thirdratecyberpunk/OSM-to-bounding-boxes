@@ -2,19 +2,28 @@
 
 import traci
 import argparse
+import ffmpeg
+from datetime import datetime
+import os
 
 from utils import set_sumo
 
 # load in arguments from CL
 parser = argparse.ArgumentParser(description="Generates screenshots of junction states through simulations .")
-parser.add_argument('--file', type = str, help="Filename of the SUMO config to load in.")
-parser.add_argument('--timestep', type = int, default = 1)
+parser.add_argument('--file', type = str, default='2023-01-13-15-51-50/osm.sumocfg', help="Filename of the SUMO config to load in.")
+parser.add_argument('--timestep', type = int, default = 1000)
 parser.add_argument('--image_timestep', type = int, default = 1, help="Timestep to generate image for.")
 
 args = parser.parse_args()
 sumocfg_file_name = args.file
 timestep = args.timestep
 image_timestep = args.image_timestep
+
+# create folder for images of current run
+screenshots_dir = f"./screenshots/{datetime.now().strftime('%Y%m%d-%H%M%S')}/"
+if not os.path.exists(screenshots_dir):
+    os.makedirs(screenshots_dir)
+
 # have to be running GUI mode to take a screenshot
 gui = True
 
@@ -25,5 +34,5 @@ traci.start(sumo_cmd)
 for i in range(timestep):
     traci.simulationStep() # repeat 0...n
     if (i % image_timestep == 0):
-        traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"./screenshots/junction_timestep_{i}.png")
+        traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{screenshots_dir}/junction_timestep_{i}.png")
 traci.close()
