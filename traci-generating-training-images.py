@@ -10,7 +10,7 @@ from utils import set_sumo
 
 # load in arguments from CL
 parser = argparse.ArgumentParser(description="Generates screenshots and videos of junction states through simulations in SUMO.")
-parser.add_argument('--file', type = str, default='2023-01-13-15-51-50/osm.sumocfg', help="Filename of the SUMO config to load in.")
+parser.add_argument('--file', type = str, default='junctions/2023-01-13-15-51-50/osm.sumocfg', help="Filename of the SUMO config to load in.")
 parser.add_argument('--timestep', type = int, default = 1000)
 parser.add_argument('--image_timestep', type = int, default = 1, help="Timestep to generate image for.")
 parser.add_argument('--generate_movie', default=False, action='store_true', help="Flag for if you want an mp4 of the simulation runthrough.")
