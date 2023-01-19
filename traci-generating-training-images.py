@@ -5,6 +5,7 @@ import argparse
 import ffmpeg
 from datetime import datetime
 import os
+import csv
 
 from utils import set_sumo
 
@@ -34,9 +35,25 @@ sumo_cmd = set_sumo(gui, sumocfg_file_name, timestep)
 # start a simulation in SUMO and take screenshots every x timesteps
 traci.start(sumo_cmd)
 for i in range(timestep):
+    # sanitising number for filenames
+    padded_i = str(i).zfill(len(str(timestep)))
+
     traci.simulationStep() # repeat 0...n
+    # create a .csv file for a timestep containing the x/y/angle positions of all vehicles currently in the simulation
+    with open(f'{screenshots_dir}/junction_timestep_{padded_i}.csv', 'w', newline='') as csvfile:
+        fieldnames = ['vehicle', 'x', 'y', 'lon', 'lat',  'angle']
+        csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        csvwriter.writeheader()
+        # get a list of all the vehicles
+        vehicles = traci.vehicle.getIDList()
+        # for each vehicle in the simulation, write a .csv row containing the vehicles
+        for vehicle in vehicles:
+            x,y = traci.vehicle.getPosition(vehicle)
+            lon, lat = traci.simulation.convertGeo(x, y)
+            angle = traci.vehicle.getAngle(vehicle)
+            csvwriter.writerow({'vehicle': vehicle, 'x' : x, 'y': y, 'angle': angle,'lon': lon, 'lat': lat})
+
     if (i % image_timestep == 0):
-        padded_i = str(i).zfill(len(str(timestep)))
         traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{screenshots_dir}/junction_timestep_{padded_i}.png")
 traci.close()
 
