@@ -18,8 +18,10 @@ parser.add_argument('--timestep', type = int, default = 100, help='Number of tim
 parser.add_argument('--image_timestep', type = int, default = 1, help="Timestep to generate image for.")
 parser.add_argument('--generate_movie', default=False, action='store_true', help="Flag for if you want an mp4 of the simulation runthrough.")
 parser.add_argument('--new_flow', default=True, action='store_true', help="Flag for if you want to generate a new route/flow pair.")
+parser.add_argument('--seed', type=int, default=-1, help='Seed for generating flow/route files, defaults to -1 which chooses a random seed if not using a specific seed.')
 
 args = parser.parse_args()
+seed = args.seed
 junction = args.junction
 new_flow = args.new_flow
 sumocfg_file_name = args.file
@@ -37,7 +39,8 @@ gui = True
 
 # create a new route/flow file if needed 
 if new_flow:
-    seed = random.randint(1,1000)
+    if (seed == -1):
+        seed = random.randint(1,1000)
     print(f"Generating new route and flow file for this run with seed {seed}")
     generate_new_route_and_flow(seed)
 
