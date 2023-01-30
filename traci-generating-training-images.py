@@ -6,17 +6,22 @@ import ffmpeg
 from datetime import datetime
 import os
 import csv
+import random
 
-from utils import set_sumo
+from utils import set_sumo, generate_new_route_and_flow
 
 # load in arguments from CL
 parser = argparse.ArgumentParser(description="Generates screenshots and videos of junction states through simulations in SUMO.")
+parser.add_argument('--junction', type = str, default='junctions/2023-01-13-15-51-50/', help="Directory of the junction to simulate")
 parser.add_argument('--file', type = str, default='junctions/2023-01-13-15-51-50/osm.sumocfg', help="Filename of the SUMO config to load in.")
-parser.add_argument('--timestep', type = int, default = 1000)
+parser.add_argument('--timestep', type = int, default = 100, help='Number of timesteps you want to run the simulation for.')
 parser.add_argument('--image_timestep', type = int, default = 1, help="Timestep to generate image for.")
 parser.add_argument('--generate_movie', default=False, action='store_true', help="Flag for if you want an mp4 of the simulation runthrough.")
+parser.add_argument('--new_flow', default=True, action='store_true', help="Flag for if you want to generate a new route/flow pair.")
 
 args = parser.parse_args()
+junction = args.junction
+new_flow = args.new_flow
 sumocfg_file_name = args.file
 timestep = args.timestep
 image_timestep = args.image_timestep
@@ -29,6 +34,12 @@ if not os.path.exists(screenshots_dir):
 
 # have to be running GUI mode to take a screenshot
 gui = True
+
+# create a new route/flow file if needed 
+if new_flow:
+    seed = random.randint(1,1000)
+    print(f"Generating new route and flow file for this run with seed {seed}")
+    generate_new_route_and_flow(seed)
 
 sumo_cmd = set_sumo(gui, sumocfg_file_name, timestep)
 
@@ -59,6 +70,7 @@ traci.close()
 
 # creating a video via ffmpeg of results
 if generate_movie:
+    print("Generating movie...")
     (
         ffmpeg
         .input(f'{screenshots_dir}/*.png', pattern_type='glob', framerate=25)
