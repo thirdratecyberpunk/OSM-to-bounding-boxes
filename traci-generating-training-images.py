@@ -29,10 +29,16 @@ timestep = args.timestep
 image_timestep = args.image_timestep
 generate_movie = args.generate_movie
 
-# create folder for images of current run
-screenshots_dir = f"./screenshots/{datetime.now().strftime('%Y%m%d-%H%M%S')}"
-if not os.path.exists(screenshots_dir):
-    os.makedirs(screenshots_dir)
+# create folders for results of current run
+results_dir = f"./results/{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+if not os.path.exists(results_dir):
+    os.makedirs(results_dir)
+    os.makedirs(f"{results_dir}/images")
+    os.makedirs(f"{results_dir}/csvs")
+
+# saving generation configuration
+with open (f"{results_dir}/setup.txt", 'w') as f:
+    f.write(f"Seed: {seed}")
 
 # have to be running GUI mode to take a screenshot
 gui = True
@@ -54,7 +60,7 @@ for i in range(timestep):
 
     traci.simulationStep() # repeat 0...n
     # create a .csv file for a timestep containing the x/y/angle positions of all vehicles currently in the simulation
-    with open(f'{screenshots_dir}/junction_timestep_{padded_i}.csv', 'w', newline='') as csvfile:
+    with open(f'{results_dir}/csvs/junction_timestep_{padded_i}.csv', 'w', newline='') as csvfile:
         fieldnames = ['vehicle', 'x', 'y', 'lon', 'lat',  'angle']
         csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
         csvwriter.writeheader()
@@ -68,7 +74,7 @@ for i in range(timestep):
             csvwriter.writerow({'vehicle': vehicle, 'x' : x, 'y': y, 'angle': angle,'lon': lon, 'lat': lat})
 
     if (i % image_timestep == 0):
-        traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{screenshots_dir}/junction_timestep_{padded_i}.png")
+        traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{results_dir}/images/junction_timestep_{padded_i}.png")
 traci.close()
 
 # creating a video via ffmpeg of results
@@ -76,7 +82,7 @@ if generate_movie:
     print("Generating movie...")
     (
         ffmpeg
-        .input(f'{screenshots_dir}/*.png', pattern_type='glob', framerate=25)
-        .output(f'{screenshots_dir}/movie.mp4')
+        .input(f'{results_dir}/images/*.png', pattern_type='glob', framerate=25)
+        .output(f'{results_dir}/movie.mp4')
         .run()
     )
