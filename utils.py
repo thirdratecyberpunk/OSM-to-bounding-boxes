@@ -32,6 +32,9 @@ def import_train_configuration(config_file):
     config['alpha'] = content['agent'].getfloat('alpha')
     config['models_path_name'] = content['dir']['models_path_name']
     config['sumocfg_file_name'] = content['dir']['sumocfg_file_name']
+    config['tl'] = content['junction']['tl']
+    config['junction'] = content['junction']['junction']
+    
     return config
 
 

@@ -12,7 +12,6 @@ from TrafficLightController import TrafficLightController
 from visualization import Visualization
 from utils import import_train_configuration, set_sumo, set_train_path, set_top_path
 
-
 if __name__ == "__main__":
 
     config = import_train_configuration(config_file='training_settings.ini')
@@ -27,7 +26,7 @@ if __name__ == "__main__":
     )
     
     TrafficLightController0 = TrafficLightController(
-        tlid="TL",
+        tlid= config['tl'],
         lanes={"W2TL_0":0,
         "W2TL_1":0,
         "W2TL_2":0,
