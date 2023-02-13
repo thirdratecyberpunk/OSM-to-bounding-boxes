@@ -6,7 +6,6 @@ import datetime
 from shutil import copyfile
 
 from SingleJunctionSimulation import SingleJunctionSimulation
-from generator import TrafficGenerator
 from agents.pytorch_vpg_model import TrainModel as VPGModel
 from TrafficLightController import TrafficLightController
 from visualization import Visualization
@@ -61,11 +60,6 @@ if __name__ == "__main__":
         outgoing_roads=["-610375444#0", "-610375447#1", "-610375443#0", "-360779398#1"],
         num_states=config['num_states']
     )
-
-    TrafficGen = TrafficGenerator(
-        config['max_steps'], 
-        config['n_cars_generated']
-    )
     
     path = set_top_path(config['models_path_name'], [Model])
 
@@ -79,7 +73,6 @@ if __name__ == "__main__":
     Simulation = SingleJunctionSimulation(
         Model,
         TrafficLightController0,
-        TrafficGen,
         sumo_cmd,
         config['gamma'],
         config['max_steps'],

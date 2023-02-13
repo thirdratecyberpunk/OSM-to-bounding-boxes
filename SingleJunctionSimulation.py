@@ -4,12 +4,6 @@ Created on Sun Jul 18 00:07:19 2021
 
 @author: Lewis
 """
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jan 16 23:01:36 2021
-
-@author: Lewis
-"""
 import traci
 import numpy as np
 import random
@@ -20,6 +14,8 @@ import torch
 from agents import VPGAgent
 
 # phase codes based on environment.net.xml
+# TODO: ensure that these definitions are correct
+# TODO: write script to calculate these for any arbitrary junction
 PHASE_NS_GREEN = 0  # action 0 code 00
 PHASE_NS_YELLOW = 1
 PHASE_NSL_GREEN = 2  # action 1 code 01
@@ -31,10 +27,9 @@ PHASE_EWL_YELLOW = 7
 
 
 class SingleJunctionSimulation:
-    def __init__(self, Model, TrafficLightController, TrafficGen, sumo_cmd, gamma, max_steps, green_duration, yellow_duration, num_states, num_actions, training_epochs):
+    def __init__(self, Model, TrafficLightController, sumo_cmd, gamma, max_steps, green_duration, yellow_duration, num_states, num_actions, training_epochs):
         self._Model = Model
         self._TrafficLightController = TrafficLightController
-        self._TrafficGen = TrafficGen
         self._gamma = gamma
         self._step = 0
         self._sumo_cmd = sumo_cmd
@@ -54,9 +49,6 @@ class SingleJunctionSimulation:
         Runs an episode of simulation, then starts a training session
         """
         start_time = timeit.default_timer()
-
-        # first, generate the route file for this simulation and set up sumo
-        self._TrafficGen.generate_routefile(seed=episode)
         traci.start(self._sumo_cmd)
         print("Simulating...")
 
@@ -131,7 +123,7 @@ class SingleJunctionSimulation:
             steps_todo -= 1
             queue_length = self._TrafficLightController._get_queue_length()
             self._sum_queue_length += queue_length
-            self._sum_waiting_time += queue_length # 1 step while wating in queue means 1 second waited, for each car, therefore queue_length == waited_seconds
+            self._sum_waiting_time += queue_length # 1 step while waiting in queue means 1 second waited, for each car, therefore queue_length == waited_seconds
 
 
     def _save_episode_stats(self):
