@@ -9,23 +9,12 @@ Provides methods for
 import traci
 import numpy as np
 
-# phase codes based on environment.net.xml
-PHASE_NS_GREEN = 0  # action 0 code 00
-PHASE_NS_YELLOW = 1
-PHASE_NSL_GREEN = 2  # action 1 code 01
-PHASE_NSL_YELLOW = 3
-PHASE_EW_GREEN = 4  # action 2 code 10
-PHASE_EW_YELLOW = 5
-PHASE_EWL_GREEN = 6  # action 3 code 11
-PHASE_EWL_YELLOW = 7
-
 class TrafficLightController:
-    # def __init__(self, phase_codes, tlid, lanes, incoming_roads, outgoing_roads, num_states):
-    def __init__(self, tlid, lanes, incoming_roads, outgoing_roads, num_states):
+    def __init__(self, phase_codes, tlid, lanes, incoming_roads, outgoing_roads, num_states):
         # ID of the traffic light this class controls
         self.tlid = tlid
         # dictionary of all phase codes
-        # self.phase_codes = phase_codes
+        self.phase_codes = phase_codes
         # dictionary of all lanes that can be observed by this class
         # key is id, value is group value
         self.lanes = lanes
@@ -44,13 +33,13 @@ class TrafficLightController:
         Activate the correct green light combination in sumo
         """
         if action_number == 0:
-            traci.trafficlight.setPhase(self.tlid, PHASE_NS_GREEN)
+            traci.trafficlight.setPhase(self.tlid, self.phase_codes["PHASE_NS_GREEN"])
         elif action_number == 1:
-            traci.trafficlight.setPhase(self.tlid, PHASE_NSL_GREEN)
+            traci.trafficlight.setPhase(self.tlid, self.phase_codes["PHASE_NSL_GREEN"])
         elif action_number == 2:
-            traci.trafficlight.setPhase(self.tlid, PHASE_EW_GREEN)
+            traci.trafficlight.setPhase(self.tlid, self.phase_codes["PHASE_EW_GREEN"])
         elif action_number == 3:
-            traci.trafficlight.setPhase(self.tlid, PHASE_EWL_GREEN)
+            traci.trafficlight.setPhase(self.tlid, self.phase_codes["PHASE_EWL_GREEN"])
     
     def _set_yellow_phase(self, old_action):
         """

@@ -44,7 +44,18 @@ if __name__ == "__main__":
         },
         outgoing_roads=["610375444#0", "610375447#1", "610375443#0","610375443#1" "360779398#1"],
         incoming_roads=["-610375444#0", "-610375447#1", "-610375443#0", "-610375443#1", "-360779398#1"],
-        num_states=config['num_states']
+        num_states=config['num_states'],
+        phase_codes = {
+            # phase codes based on environment.net.xml
+            "PHASE_NS_GREEN":0,  # action 0 code 00
+            "PHASE_NS_YELLOW":1,
+            "PHASE_NSL_GREEN":2,  # action 1 code 01
+            "PHASE_NSL_YELLOW":3,
+            "PHASE_EW_GREEN":4,  # action 2 code 10
+            "PHASE_EW_YELLOW":5,
+            "PHASE_EWL_GREEN":6,  # action 3 code 11
+            "PHASE_EWL_YELLOW":7
+        }
     )
     
     if config['save']:
