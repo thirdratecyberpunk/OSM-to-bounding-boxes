@@ -13,19 +13,6 @@ import torch
 
 from agents import VPGAgent
 
-# phase codes based on environment.net.xml
-# TODO: ensure that these definitions are correct
-# TODO: write script to calculate these for any arbitrary junction
-PHASE_NS_GREEN = 0  # action 0 code 00
-PHASE_NS_YELLOW = 1
-PHASE_NSL_GREEN = 2  # action 1 code 01
-PHASE_NSL_YELLOW = 3
-PHASE_EW_GREEN = 4 # action 2 code 10
-PHASE_EW_YELLOW = 5
-PHASE_EWL_GREEN = 6  # action 3 code 11
-PHASE_EWL_YELLOW = 7
-
-
 class SingleJunctionSimulation:
     def __init__(self, Model, TrafficLightController, sumo_cmd, gamma, max_steps, green_duration, yellow_duration, num_states, num_actions, training_epochs):
         self._Model = Model
