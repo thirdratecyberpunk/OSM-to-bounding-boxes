@@ -34,6 +34,7 @@ def import_train_configuration(config_file):
     config['sumocfg_file_name'] = content['dir']['sumocfg_file_name']
     config['tl'] = content['junction']['tl']
     config['junction'] = content['junction']['junction']
+    config['save'] = content['results'].getboolean('save')
     
     return config
 

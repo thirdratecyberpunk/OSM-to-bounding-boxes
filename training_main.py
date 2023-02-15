@@ -26,24 +26,6 @@ if __name__ == "__main__":
     
     TrafficLightController0 = TrafficLightController(
         tlid= config['tl'],
-        # lanes={
-        # "W2TL_0":0,
-        # "W2TL_1":0,
-        # "W2TL_2":0,
-        # "W2TL_3":1,
-        # "N2TL_0":2,
-        # "N2TL_1":2,
-        # "N2TL_2":2,
-        # "N2TL_3":3,
-        # "E2TL_0":4,
-        # "E2TL_1":4,
-        # "E2TL_2":4,
-        # "E2TL_3":5,
-        # "S2TL_0":6,
-        # "S2TL_1":6,
-        # "S2TL_2":6,
-        # "S2TL_3":7
-        # },
         lanes={
             "610375444#0_0":0,
             "610375444#0_1":0,
@@ -61,12 +43,13 @@ if __name__ == "__main__":
         num_states=config['num_states']
     )
     
-    path = set_top_path(config['models_path_name'], [Model])
+    if config['save']:
+        path = set_top_path(config['models_path_name'], [Model])
 
-    Visualization = Visualization(
-        path, 
-        dpi=96
-    )
+        Visualization = Visualization(
+            path, 
+            dpi=96
+        )
     
     print(config['training_epochs'])
     
@@ -95,24 +78,26 @@ if __name__ == "__main__":
 
     print("\n----- Start time:", timestamp_start)
     print("----- End time:", datetime.datetime.now())
-    print("----- Session info saved at:", path)
 
-    Model.save_model(path, episode)
+    if (config['save']):
+        print("----- Session info saved at:", path)
 
-    copyfile(src='training_settings.ini', dst=os.path.join(path, 'training_settings.ini'))
+        Model.save_model(path, episode)
 
-    Visualization.plot_single_agent(data=Simulation.reward_store,
-                           filename='reward',
-                           xlabel='Episode',
-                           ylabel='Cumulative local negative reward',
-                           agent=Model.agent_name)
-    Visualization.plot_single_agent(data=Simulation.cumulative_wait_store,
-                           filename='delay',
-                           xlabel='Episode',
-                           ylabel='Cumulative delay(s)',
-                           agent=Model.agent_name)
-    Visualization.plot_single_agent(data=Simulation.avg_queue_length_store,
-                            filename='queue',
+        copyfile(src='training_settings.ini', dst=os.path.join(path, 'training_settings.ini'))
+
+        Visualization.plot_single_agent(data=Simulation.reward_store,
+                            filename='reward',
                             xlabel='Episode',
-                            ylabel='Average queue length (vehicles)', 
+                            ylabel='Cumulative local negative reward',
                             agent=Model.agent_name)
+        Visualization.plot_single_agent(data=Simulation.cumulative_wait_store,
+                            filename='delay',
+                            xlabel='Episode',
+                            ylabel='Cumulative delay(s)',
+                            agent=Model.agent_name)
+        Visualization.plot_single_agent(data=Simulation.avg_queue_length_store,
+                                filename='queue',
+                                xlabel='Episode',
+                                ylabel='Average queue length (vehicles)', 
+                                agent=Model.agent_name)
