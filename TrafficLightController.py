@@ -20,9 +20,12 @@ PHASE_EWL_GREEN = 6  # action 3 code 11
 PHASE_EWL_YELLOW = 7
 
 class TrafficLightController:
+    # def __init__(self, phase_codes, tlid, lanes, incoming_roads, outgoing_roads, num_states):
     def __init__(self, tlid, lanes, incoming_roads, outgoing_roads, num_states):
         # ID of the traffic light this class controls
         self.tlid = tlid
+        # dictionary of all phase codes
+        # self.phase_codes = phase_codes
         # dictionary of all lanes that can be observed by this class
         # key is id, value is group value
         self.lanes = lanes
@@ -60,12 +63,7 @@ class TrafficLightController:
         """
         Retrieve the number of cars with speed = 0 in every incoming lane
         """
-        halt_N = traci.edge.getLastStepHaltingNumber(self.incoming_roads[0])
-        halt_S = traci.edge.getLastStepHaltingNumber(self.incoming_roads[1])
-        halt_E = traci.edge.getLastStepHaltingNumber(self.incoming_roads[2])
-        halt_W = traci.edge.getLastStepHaltingNumber(self.incoming_roads[3])
-        queue_length = halt_N + halt_S + halt_E + halt_W
-        return queue_length  
+        return sum([traci.edge.getLastStepHaltingNumber(incoming) for incoming in self.incoming_roads])
     
     def _calculate_pressure(self, road_to_calculate):
         """
