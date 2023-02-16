@@ -10,11 +10,11 @@ import traci
 import numpy as np
 
 class TrafficLightController:
-    def __init__(self, phase_codes, tlid, lanes, incoming_roads, outgoing_roads, num_states):
+    def __init__(self, num_phases, tlid, lanes, incoming_roads, outgoing_roads, num_states):
         # ID of the traffic light this class controls
         self.tlid = tlid
-        # dictionary of all phase codes
-        self.phase_codes = phase_codes
+        # number of possible phases (i.e. traffic light states)
+        self.num_phases = num_phases
         # dictionary of all lanes that can be observed by this class
         # key is id, value is group value
         self.lanes = lanes
@@ -28,18 +28,12 @@ class TrafficLightController:
     def _get_incoming_roads(self):
         return self.incoming_roads
     
+    # TODO: make state activation genericised
     def _set_green_phase(self, action_number):
         """
         Activate the correct green light combination in sumo
         """
-        if action_number == 0:
-            traci.trafficlight.setPhase(self.tlid, self.phase_codes["PHASE_NS_GREEN"])
-        elif action_number == 1:
-            traci.trafficlight.setPhase(self.tlid, self.phase_codes["PHASE_NSL_GREEN"])
-        elif action_number == 2:
-            traci.trafficlight.setPhase(self.tlid, self.phase_codes["PHASE_EW_GREEN"])
-        elif action_number == 3:
-            traci.trafficlight.setPhase(self.tlid, self.phase_codes["PHASE_EWL_GREEN"])
+        traci.trafficlight.setPhase(self.tlid, action_number)
     
     def _set_yellow_phase(self, old_action):
         """
@@ -135,6 +129,7 @@ class TrafficLightController:
         total_waiting_time = sum(waiting_times.values())
         return total_waiting_time
     
+    # TODO: check if this state representation works for other junctions
     def _get_state(self):
         """
         Retrieve the state of the intersection from sumo, in the form of cell occupancy
@@ -189,7 +184,7 @@ class TrafficLightController:
 
             if valid_car:
                 state[car_position] = 1  # write the position of the car car_id in the state array in the form of "cell occupied"
-
+        print(state)
         return state
         
     
