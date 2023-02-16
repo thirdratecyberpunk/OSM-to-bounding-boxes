@@ -10,7 +10,7 @@ import traci
 import numpy as np
 
 class TrafficLightController:
-    def __init__(self, possible_phases, tlid, lanes, incoming_roads, outgoing_roads, num_states):
+    def __init__(self, possible_phases, tlid, lanes, incoming_roads, outgoing_roads, num_states, edges_to_action):
         # ID of the traffic light this class controls
         self.tlid = tlid
         # list of all possible traffic light states
@@ -26,6 +26,8 @@ class TrafficLightController:
         self.outgoing_roads = outgoing_roads
         # number of possible states
         self.num_states = num_states
+        # mapping of an edge to its action
+        self.edges_to_action = edges_to_action
         
     def _get_incoming_roads(self):
         return self.incoming_roads
@@ -93,10 +95,11 @@ class TrafficLightController:
         highest_queue_length = 0
         highest_queue_length_action = 0
         for count, value in enumerate(self.incoming_roads):
-            queue_len = traci.edge.getLastStepVehicleNumber(self.incoming_roads[count])
+            road_to_check = self.incoming_roads[count]
+            queue_len = traci.edge.getLastStepVehicleNumber(road_to_check)
             if (queue_len > highest_queue_length):
                 highest_queue_length = queue_len
-                highest_queue_length_action = count
+                highest_queue_length_action = self.edges_to_action[road_to_check]
         return highest_queue_length_action
     
     def _get_greedy_total_wait_time_action(self):

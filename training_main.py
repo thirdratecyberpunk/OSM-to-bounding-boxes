@@ -8,6 +8,8 @@ from shutil import copyfile
 from SingleJunctionSimulation import SingleJunctionSimulation
 from agents.pytorch_vpg_model import TrainModel as VPGModel
 from agents.PreTimedModel import PreTimedModel
+from agents.GreedyQueueSizeModel import GreedyQueueSizeModel
+from agents.HighestPressureModel import HighestPressureModel
 from TrafficLightController import TrafficLightController
 from visualization import Visualization
 from utils import import_train_configuration, set_sumo, set_train_path, set_top_path
@@ -16,16 +18,6 @@ if __name__ == "__main__":
 
     config = import_train_configuration(config_file='training_settings.ini')
     sumo_cmd = set_sumo(config['gui'], config['sumocfg_file_name'], config['max_steps'])    
-    
-    # Model = VPGModel(
-    #     input_dim=config['num_states'], 
-    #     output_dim=config['num_actions'],
-    #     gamma = config['gamma'],
-    #     epsilon = config['epsilon'],
-    #     alpha = config['alpha']
-    # )
-
-    Model = PreTimedModel(duration=1, actions=8)
     
     TrafficLightController0 = TrafficLightController(
         tlid= config['tl'],
@@ -45,8 +37,10 @@ if __name__ == "__main__":
             "610375443#1_1":4,
             "610375443#1_2":4,
         },
-        outgoing_roads=["610375444#0", "610375447#1", "610375443#0","610375443#1" "360779398#1"],
-        incoming_roads=["-610375444#0", "-610375447#1", "-610375443#0", "-610375443#1", "-360779398#1"],
+        # outgoing_roads=["-610375444#0", "610375447#1", "610375443#0", "360779398#1"],
+        # incoming_roads=["610375444#0", "-610375447#1", "-610375443#0", "-360779398#1"],
+        outgoing_roads=["-610375444#0", "360779398#1","610375443#0", "-610375447#1"],
+        incoming_roads=["610375444#0", "-360779398#1", "-610375443#0", "610375447#1"],
         num_states=config['num_states'],
         possible_phases=["rrrGGrrrrrGGGggrrrrrGGGgg",
         "rrryyrrrrryyyggrrrrryyygg",
@@ -56,8 +50,30 @@ if __name__ == "__main__":
         "yyyyyyyyggrrrrryyyggrrrrr",
         "rrGGGrrrGGrrrrrrrrGGrrrrr",
         "rryyyrrryyrrrrrrrryyrrrrr"
-        ]
+        ],
+        edges_to_action={
+            # L/R
+            "610375444#0": 4,
+            "-610375443#0": 4,
+            # U/D
+            "610375447#1": 0,
+            "-360779398#1": 0
+        }
     )
+
+    # Model = VPGModel(
+    #     input_dim=config['num_states'], 
+    #     output_dim=config['num_actions'],
+    #     gamma = config['gamma'],
+    #     epsilon = config['epsilon'],
+    #     alpha = config['alpha']
+    # )
+
+    # Model = PreTimedModel(duration=1, actions=8)
+
+    # Model = HighestPressureModel(tlc=TrafficLightController0)
+
+    Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
     
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])
