@@ -64,7 +64,9 @@ class SingleJunctionSimulation:
                 self._Model.after_action(old_state, old_action, reward, current_state)
 
             # choose the light phase to activate, based on the current state of the intersection
-            action = self._Model._model.choose_action(current_state)
+            # TODO: rewrite the agent architecture so it's not doing Model._model, this is awkward
+            # action = self._Model._model.choose_action(current_state)
+            action = self._Model.choose_action(current_state)
 
             # if the chosen phase is different from the last phase, activate the yellow phase
             if self._step != 0 and old_action != action:
@@ -91,7 +93,7 @@ class SingleJunctionSimulation:
 
         print("Training...")
         start_time = timeit.default_timer()
-        self._Model._model.finish_episode()
+        self._Model.finish_episode(100)
         training_time = round(timeit.default_timer() - start_time, 1)
 
         return simulation_time, training_time

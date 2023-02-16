@@ -35,14 +35,19 @@ class TrafficLightController:
         """
         Activate the correct green light combination in sumo
         """
+        print(f"{self.tlid} chose action {action_number}, phase {self.possible_phases[action_number]}")
         traci.trafficlight.setPhase(self.tlid, action_number)
     
     def _set_yellow_phase(self, old_action):
         """
         Activate the correct yellow light combination in sumo
         """
-        yellow_phase_code = old_action * 2 + 1 # obtain the yellow phase code, based on the old action (ref on environment.net.xml)
-        traci.trafficlight.setPhase(self.tlid, yellow_phase_code)
+        print(f"Activated yellow phase on action {old_action}, phase {self.possible_phases[old_action]}")
+        # TODO: check if the yellow phase code is ALWAYS the next value up
+        # not 100% convinced this is how it should be handled
+        action_number = old_action + 1 # obtain the yellow phase code, based on the old action (ref on environment.net.xml)
+        print(f"{self.tlid} chose action {action_number}, phase {self.possible_phases[action_number]}")
+        traci.trafficlight.setPhase(self.tlid, action_number)
         
     def _get_queue_length(self):
         """

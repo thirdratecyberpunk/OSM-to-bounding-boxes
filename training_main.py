@@ -7,6 +7,7 @@ from shutil import copyfile
 
 from SingleJunctionSimulation import SingleJunctionSimulation
 from agents.pytorch_vpg_model import TrainModel as VPGModel
+from agents.PreTimedModel import PreTimedModel
 from TrafficLightController import TrafficLightController
 from visualization import Visualization
 from utils import import_train_configuration, set_sumo, set_train_path, set_top_path
@@ -16,13 +17,15 @@ if __name__ == "__main__":
     config = import_train_configuration(config_file='training_settings.ini')
     sumo_cmd = set_sumo(config['gui'], config['sumocfg_file_name'], config['max_steps'])    
     
-    Model = VPGModel(
-        input_dim=config['num_states'], 
-        output_dim=config['num_actions'],
-        gamma = config['gamma'],
-        epsilon = config['epsilon'],
-        alpha = config['alpha']
-    )
+    # Model = VPGModel(
+    #     input_dim=config['num_states'], 
+    #     output_dim=config['num_actions'],
+    #     gamma = config['gamma'],
+    #     epsilon = config['epsilon'],
+    #     alpha = config['alpha']
+    # )
+
+    Model = PreTimedModel(duration=1, actions=8)
     
     TrafficLightController0 = TrafficLightController(
         tlid= config['tl'],
