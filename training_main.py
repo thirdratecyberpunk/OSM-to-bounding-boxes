@@ -45,7 +45,15 @@ if __name__ == "__main__":
         outgoing_roads=["610375444#0", "610375447#1", "610375443#0","610375443#1" "360779398#1"],
         incoming_roads=["-610375444#0", "-610375447#1", "-610375443#0", "-610375443#1", "-360779398#1"],
         num_states=config['num_states'],
-        num_phases=8
+        possible_phases=["rrrGGrrrrrGGGggrrrrrGGGgg",
+        "rrryyrrrrryyyggrrrrryyygg",
+        "rrrGGrrrrrrrrGGrrrrrrrrGG",
+        "rrryyrrrrrrrryyrrrrrrrryy",
+        "GGGGGGGGggrrrrrGGGggrrrrr",
+        "yyyyyyyyggrrrrryyyggrrrrr",
+        "rrGGGrrrGGrrrrrrrrGGrrrrr",
+        "rryyyrrryyrrrrrrrryyrrrrr"
+        ]
     )
     
     if config['save']:

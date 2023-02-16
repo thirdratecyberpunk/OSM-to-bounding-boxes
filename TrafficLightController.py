@@ -10,11 +10,13 @@ import traci
 import numpy as np
 
 class TrafficLightController:
-    def __init__(self, num_phases, tlid, lanes, incoming_roads, outgoing_roads, num_states):
+    def __init__(self, possible_phases, tlid, lanes, incoming_roads, outgoing_roads, num_states):
         # ID of the traffic light this class controls
         self.tlid = tlid
+        # list of all possible traffic light states
+        self.possible_phases = possible_phases
         # number of possible phases (i.e. traffic light states)
-        self.num_phases = num_phases
+        self.num_phases = len(self.possible_phases)
         # dictionary of all lanes that can be observed by this class
         # key is id, value is group value
         self.lanes = lanes
