@@ -4,7 +4,6 @@ Created on Mon Feb 15 13:50:20 2021
 
 @author: Lewis
 Class representing an agent controlling a traffic light
-Provides methods for 
 """
 import traci
 import numpy as np
@@ -37,18 +36,18 @@ class TrafficLightController:
         """
         Activate the correct green light combination in sumo
         """
-        print(f"{self.tlid} chose action {action_number}, phase {self.possible_phases[action_number]}")
+        # print(f"{self.tlid} chose action {action_number}, phase {self.possible_phases[action_number]}")
         traci.trafficlight.setPhase(self.tlid, action_number)
     
     def _set_yellow_phase(self, old_action):
         """
         Activate the correct yellow light combination in sumo
         """
-        print(f"Activated yellow phase on action {old_action}, phase {self.possible_phases[old_action]}")
+        # print(f"Activated yellow phase on action {old_action}, phase {self.possible_phases[old_action]}")
         # TODO: check if the yellow phase code is ALWAYS the next value up
         # not 100% convinced this is how it should be handled
         action_number = old_action + 1 # obtain the yellow phase code, based on the old action (ref on environment.net.xml)
-        print(f"{self.tlid} chose action {action_number}, phase {self.possible_phases[action_number]}")
+        # print(f"{self.tlid} chose action {action_number}, phase {self.possible_phases[action_number]}")
         traci.trafficlight.setPhase(self.tlid, action_number)
         
     def _get_queue_length(self):
@@ -59,7 +58,7 @@ class TrafficLightController:
     
     def _calculate_pressure(self, road_to_calculate):
         """
-        Calculates pressure for a given lane
+        Calculates pressure for a given edge
         Pressure = # of incoming cars - # of outgoing cars
         Returns
         -------
@@ -104,8 +103,8 @@ class TrafficLightController:
     
     def _get_greedy_total_wait_time_action(self):
         """
-        Returns the action corresponding to the greedy action for # of cars
-        in lane
+        Returns the action corresponding to the greedy action for sum of waiting
+        times in edge
 
         Returns
         -------
@@ -114,11 +113,13 @@ class TrafficLightController:
         """
         highest_wait_time = 0
         highest_wait_time_action = 0
+        highest_wait_time_road = ""
         for count, value in enumerate(self.incoming_roads):
-            wait_time = traci.edge.getWaitingTime(self.incoming_roads[count])
+            road_to_check = self.incoming_roads[count]
+            wait_time = traci.edge.getWaitingTime(road_to_check)
             if (wait_time > highest_wait_time):
                 highest_wait_time = wait_time
-                highest_queue_length_action = count
+                highest_wait_time_action = self.edges_to_action[road_to_check]
         return highest_wait_time_action
     
     
@@ -194,7 +195,6 @@ class TrafficLightController:
 
             if valid_car:
                 state[car_position] = 1  # write the position of the car car_id in the state array in the form of "cell occupied"
-        print(state)
         return state
         
     

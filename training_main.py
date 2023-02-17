@@ -10,6 +10,7 @@ from agents.pytorch_vpg_model import TrainModel as VPGModel
 from agents.PreTimedModel import PreTimedModel
 from agents.GreedyQueueSizeModel import GreedyQueueSizeModel
 from agents.HighestPressureModel import HighestPressureModel
+from agents.GreedyWaitingTimeModel import GreedyWaitingTimeModel
 from TrafficLightController import TrafficLightController
 from visualization import Visualization
 from utils import import_train_configuration, set_sumo, set_train_path, set_top_path
@@ -73,7 +74,9 @@ if __name__ == "__main__":
 
     # Model = HighestPressureModel(tlc=TrafficLightController0)
 
-    Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
+    # Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
+
+    Model = GreedyWaitingTimeModel(tlc=TrafficLightController0)
     
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])
