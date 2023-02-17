@@ -59,6 +59,10 @@ class TrafficLightController:
     def _calculate_pressure(self, road_to_calculate):
         """
         Calculates pressure for a given edge
+        Pressure of an intersection. The intersection pressure 𝑝𝑖 is
+        defined as the difference between the number of all vehicles enter-
+        ing the lane and the average queue situation on the exit lane or at
+        the adjacent intersection. 
         Pressure = # of incoming cars - # of outgoing cars
         Returns
         -------

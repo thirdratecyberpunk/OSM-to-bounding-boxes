@@ -62,6 +62,14 @@ if __name__ == "__main__":
         }
     )
 
+    # non-RL benchmarks
+    # Model = PreTimedModel(duration=1, actions=8)
+    # Model = HighestPressureModel(tlc=TrafficLightController0)
+    # Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
+    # Model = GreedyWaitingTimeModel(tlc=TrafficLightController0)
+    Model = HighestPressureModel(tlc=TrafficLightController0)
+
+    # RL benchmarks
     # Model = VPGModel(
     #     input_dim=config['num_states'], 
     #     output_dim=config['num_actions'],
@@ -69,14 +77,6 @@ if __name__ == "__main__":
     #     epsilon = config['epsilon'],
     #     alpha = config['alpha']
     # )
-
-    # Model = PreTimedModel(duration=1, actions=8)
-
-    # Model = HighestPressureModel(tlc=TrafficLightController0)
-
-    # Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
-
-    Model = GreedyWaitingTimeModel(tlc=TrafficLightController0)
     
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])
