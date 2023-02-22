@@ -64,7 +64,7 @@ if __name__ == "__main__":
     )
 
     # non-RL benchmarks
-    # Model = PreTimedModel(duration=1, actions=8)
+    Model = PreTimedModel(duration=1, actions=8)
     # Model = HighestPressureModel(tlc=TrafficLightController0)
     # Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
     # Model = GreedyWaitingTimeModel(tlc=TrafficLightController0)
@@ -79,14 +79,14 @@ if __name__ == "__main__":
     #     alpha = config['alpha']
     # )
 
-    Model = DQNModel(
-        config['num_layers'], 
-        config['width_layers'], 
-        config['batch_size'], 
-        config['learning_rate'], 
-        input_dim=config['num_states'], 
-        output_dim=config['num_actions']
-    )
+    # Model = DQNModel(
+    #     config['num_layers'], 
+    #     config['width_layers'], 
+    #     config['batch_size'], 
+    #     config['learning_rate'], 
+    #     input_dim=config['num_states'], 
+    #     output_dim=config['num_actions']
+    # )
 
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])

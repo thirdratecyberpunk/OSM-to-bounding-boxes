@@ -52,7 +52,9 @@ class SingleJunctionSimulation:
         while self._step < self._max_steps:
 
             # get current state of the intersection
-            current_state = self._TrafficLightController._get_state()
+            # current_state = self._TrafficLightController._get_state()
+            # print(f"Yingyi style state: {self._TrafficLightController._yingyi_state()}")
+            current_state = self._TrafficLightController._yingyi_state()
 
             # calculate reward of previous action: (change in cumulative waiting time between actions)
             # waiting time = seconds waited by a car since the spawn in the environment, cumulated for every car in incoming lanes

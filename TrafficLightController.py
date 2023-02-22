@@ -19,9 +19,13 @@ class TrafficLightController:
         # dictionary of all lanes that can be observed by this class
         # key is id, value is group value
         self.lanes = lanes
-        # array of all incoming lanes
+
+        # list of all lanes that are controlled by this traffic light
+        # self.controlled_lanes = traci.trafficlight.getControlledLanes(self.tlid)
+
+        # array of all incoming edges
         self.incoming_roads = incoming_roads
-        # array of all outgoing lanes
+        # array of all outgoing edges
         self.outgoing_roads = outgoing_roads
         # number of possible states
         self.num_states = num_states
@@ -144,11 +148,45 @@ class TrafficLightController:
         total_waiting_time = sum(waiting_times.values())
         return total_waiting_time
     
+    """
+    Returns a representation of the state as an array of 1D arrays containing:
+    1) the current phase code for the traffic light
+    2) the value for getLastStepHaltingNumber for each lane controlled by this traffic light
+    """
+    def _yingyi_state(self):
+        # gets a list of all the lanes controlled by this traffic light
+        self.controlled_lanes = traci.trafficlight.getControlledLanes(self.tlid)
+        obs = []
+        # appends the current phase code for this traffic light
+        obs_tl = []
+        obs_tl.append(traci.trafficlight.getPhase(self.tlid))
+
+        # gets the number of stationary cars in each lane observable by this traffic light
+        for lane in self.controlled_lanes:
+            obs_tl.append(traci.lane.getLastStepHaltingNumber(lane))
+        # converts the observation to a numpy array
+        obs_tl = np.array(obs_tl)
+        # appends this observation to the array of observations
+        obs.append(obs_tl)
+        obs = np.array(obs)
+
+        print(f'obs: {obs}')
+        return obs
+
+
+    """
+    Returns an array of all edges for a given 
+    """
+    def getLanesForEdge(self, edge_id):
+        # gets the number of lanes this edge is supposed to have
+        num_lanes = traci.edge.getLaneNumber(edge_id)
+        return [f"{edge_id}_{str(lane_count)}" for lane_count in range(num_lanes)]
+
     # TODO: check if this state representation works for other junctions
+    """
+    Retrieve the state of the intersection from sumo, in the form of cell occupancy
+    """
     def _get_state(self):
-        """
-        Retrieve the state of the intersection from sumo, in the form of cell occupancy
-        """
         state = np.zeros(self.num_states)
         
         # get all vehicles in the simulation
