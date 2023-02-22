@@ -16,11 +16,15 @@ from TrafficLightController import TrafficLightController
 from visualization import Visualization
 from utils import import_train_configuration, set_sumo, set_train_path, set_top_path
 
+import traci
+
 if __name__ == "__main__":
 
     config = import_train_configuration(config_file='training_settings.ini')
     sumo_cmd = set_sumo(config['gui'], config['sumocfg_file_name'], config['max_steps'])    
-    
+    # opens the connection to Traci to access information about the junction configuration
+    traci.start(sumo_cmd)
+
     TrafficLightController0 = TrafficLightController(
         tlid= config['tl'],
         lanes={
@@ -53,6 +57,7 @@ if __name__ == "__main__":
         "rrGGGrrrGGrrrrrrrrGGrrrrr",
         "rryyyrrryyrrrrrrrryyrrrrr"
         ],
+        # TODO: see if this can be derived from TRACI rather than hard coded
         edges_to_action={
             # L/R
             "610375444#0": 4,
@@ -64,7 +69,7 @@ if __name__ == "__main__":
     )
 
     # non-RL benchmarks
-    Model = PreTimedModel(duration=1, actions=8)
+    # Model = PreTimedModel(duration=1, actions=8)
     # Model = HighestPressureModel(tlc=TrafficLightController0)
     # Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
     # Model = GreedyWaitingTimeModel(tlc=TrafficLightController0)
@@ -79,14 +84,14 @@ if __name__ == "__main__":
     #     alpha = config['alpha']
     # )
 
-    # Model = DQNModel(
-    #     config['num_layers'], 
-    #     config['width_layers'], 
-    #     config['batch_size'], 
-    #     config['learning_rate'], 
-    #     input_dim=config['num_states'], 
-    #     output_dim=config['num_actions']
-    # )
+    Model = DQNModel(
+        config['num_layers'], 
+        config['width_layers'], 
+        config['batch_size'], 
+        config['learning_rate'], 
+        input_dim=TrafficLightController0.get_state_space(), 
+        output_dim=config['num_actions']
+    )
 
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])
@@ -97,6 +102,8 @@ if __name__ == "__main__":
         )
     
     print(config['training_epochs'])
+
+    traci.close()
     
     Simulation = SingleJunctionSimulation(
         Model,
@@ -142,7 +149,7 @@ if __name__ == "__main__":
                             ylabel='Cumulative delay(s)',
                             agent=Model.agent_name)
         Visualization.plot_single_agent(data=Simulation.avg_queue_length_store,
-                                filename='queue',
-                                xlabel='Episode',
-                                ylabel='Average queue length (vehicles)', 
-                                agent=Model.agent_name)
+                            filename='queue',
+                            xlabel='Episode',
+                            ylabel='Average queue length (vehicles)', 
+                            agent=Model.agent_name)
