@@ -6,6 +6,7 @@ import datetime
 from shutil import copyfile
 
 from SingleJunctionSimulation import SingleJunctionSimulation
+from agents.DQNModel import TrainModel as DQNModel
 from agents.pytorch_vpg_model import TrainModel as VPGModel
 from agents.PreTimedModel import PreTimedModel
 from agents.GreedyQueueSizeModel import GreedyQueueSizeModel
@@ -67,7 +68,7 @@ if __name__ == "__main__":
     # Model = HighestPressureModel(tlc=TrafficLightController0)
     # Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
     # Model = GreedyWaitingTimeModel(tlc=TrafficLightController0)
-    Model = HighestPressureModel(tlc=TrafficLightController0)
+    # Model = HighestPressureModel(tlc=TrafficLightController0)
 
     # RL benchmarks
     # Model = VPGModel(
@@ -77,7 +78,16 @@ if __name__ == "__main__":
     #     epsilon = config['epsilon'],
     #     alpha = config['alpha']
     # )
-    
+
+    Model = DQNModel(
+        config['num_layers'], 
+        config['width_layers'], 
+        config['batch_size'], 
+        config['learning_rate'], 
+        input_dim=config['num_states'], 
+        output_dim=config['num_actions']
+    )
+
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])
 
