@@ -43,7 +43,7 @@ if __name__ == "__main__":
         # incoming_roads=["610375444#0", "-610375447#1", "-610375443#0", "-360779398#1"],
         outgoing_roads=["-610375444#0", "360779398#1","610375443#0", "-610375447#1"],
         incoming_roads=["610375444#0", "-360779398#1", "-610375443#0", "610375447#1"],
-        num_states=config['num_states'],
+        # num_states=config['num_states'],
         possible_phases=["rrrGGrrrrrGGGggrrrrrGGGgg",
         "rrryyrrrrryyyggrrrrryyygg",
         "rrrGGrrrrrrrrGGrrrrrrrrGG",

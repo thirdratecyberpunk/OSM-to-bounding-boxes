@@ -9,7 +9,8 @@ import traci
 import numpy as np
 
 class TrafficLightController:
-    def __init__(self, possible_phases, tlid, lanes, incoming_roads, outgoing_roads, num_states, edges_to_action):
+    # def __init__(self, possible_phases, tlid, lanes, incoming_roads, outgoing_roads, num_states, edges_to_action):
+    def __init__(self, possible_phases, tlid, lanes, incoming_roads, outgoing_roads, edges_to_action):
         # ID of the traffic light this class controls
         self.tlid = tlid
         # list of all possible traffic light states
@@ -28,7 +29,7 @@ class TrafficLightController:
         # array of all outgoing edges
         self.outgoing_roads = outgoing_roads
         # number of possible states
-        self.num_states = num_states
+        # self.num_states = num_states
         # mapping of an edge to its action
         self.edges_to_action = edges_to_action
         
@@ -173,70 +174,77 @@ class TrafficLightController:
         print(f'obs: {obs}')
         return obs
 
+    """
+    Returns the size of the state space for initialising neural networks
+    """
+    def get_state_space(self):
+        # yingyi's example: return self.num_lanes_per_direction * self.num_directions_per_tl + 1
+        # in our case, we count the number of lanes controlled by this 
+        return len(traci.trafficlight.getControlledLanes(self.tlid)) + 1
 
-    """
-    Returns an array of all edges for a given 
-    """
-    def getLanesForEdge(self, edge_id):
-        # gets the number of lanes this edge is supposed to have
-        num_lanes = traci.edge.getLaneNumber(edge_id)
-        return [f"{edge_id}_{str(lane_count)}" for lane_count in range(num_lanes)]
+    # """
+    # Returns an array of all lanes for a given edge by building the names 
+    # """
+    # def get_lanes_for_edge(self, edge_id):
+    #     # gets the number of lanes this edge is supposed to have
+    #     num_lanes = traci.edge.getLaneNumber(edge_id)
+    #     return [f"{edge_id}_{str(lane_count)}" for lane_count in range(num_lanes)]
 
-    # TODO: check if this state representation works for other junctions
-    """
-    Retrieve the state of the intersection from sumo, in the form of cell occupancy
-    """
-    def _get_state(self):
-        state = np.zeros(self.num_states)
+    # # TODO: check if this state representation works for other junctions
+    # """
+    # Retrieve the state of the intersection from sumo, in the form of cell occupancy
+    # """
+    # def _get_state(self):
+    #     state = np.zeros(self.num_states)
         
-        # get all vehicles in the simulation
-        car_list = traci.vehicle.getIDList()
+    #     # get all vehicles in the simulation
+    #     car_list = traci.vehicle.getIDList()
         
-        # if that vehicle is in a lane that can be seen by the traffic light,
-        # calculate its number in the state representation
-        for car_id in car_list:
-            lane_pos = traci.vehicle.getLanePosition(car_id)
-            lane_id = traci.vehicle.getLaneID(car_id)
-            lane_pos = 750 - lane_pos  # inversion of lane pos, so if the car is close to the traffic light -> lane_pos = 0 --- 750 = max len of a road
+    #     # if that vehicle is in a lane that can be seen by the traffic light,
+    #     # calculate its number in the state representation
+    #     for car_id in car_list:
+    #         lane_pos = traci.vehicle.getLanePosition(car_id)
+    #         lane_id = traci.vehicle.getLaneID(car_id)
+    #         lane_pos = 750 - lane_pos  # inversion of lane pos, so if the car is close to the traffic light -> lane_pos = 0 --- 750 = max len of a road
 
-            # distance in meters from the traffic light -> mapping into cells
-            if lane_pos < 7:
-                lane_cell = 0
-            elif lane_pos < 14:
-                lane_cell = 1
-            elif lane_pos < 21:
-                lane_cell = 2
-            elif lane_pos < 28:
-                lane_cell = 3
-            elif lane_pos < 40:
-                lane_cell = 4
-            elif lane_pos < 60:
-                lane_cell = 5
-            elif lane_pos < 100:
-                lane_cell = 6
-            elif lane_pos < 160:
-                lane_cell = 7
-            elif lane_pos < 400:
-                lane_cell = 8
-            elif lane_pos <= 750:
-                lane_cell = 9
+    #         # distance in meters from the traffic light -> mapping into cells
+    #         if lane_pos < 7:
+    #             lane_cell = 0
+    #         elif lane_pos < 14:
+    #             lane_cell = 1
+    #         elif lane_pos < 21:
+    #             lane_cell = 2
+    #         elif lane_pos < 28:
+    #             lane_cell = 3
+    #         elif lane_pos < 40:
+    #             lane_cell = 4
+    #         elif lane_pos < 60:
+    #             lane_cell = 5
+    #         elif lane_pos < 100:
+    #             lane_cell = 6
+    #         elif lane_pos < 160:
+    #             lane_cell = 7
+    #         elif lane_pos < 400:
+    #             lane_cell = 8
+    #         elif lane_pos <= 750:
+    #             lane_cell = 9
 
-            # finding the lane where the car is located 
-            # x2TL_3 are the "turn left only" lanes
+    #         # finding the lane where the car is located 
+    #         # x2TL_3 are the "turn left only" lanes
             
-            lane_group = self.lanes.get(lane_id, -1)
+    #         lane_group = self.lanes.get(lane_id, -1)
 
-            if lane_group >= 1 and lane_group <= 7:
-                car_position = int(str(lane_group) + str(lane_cell))  # composition of the two postion ID to create a number in interval 0-79
-                valid_car = True
-            elif lane_group == 0:
-                car_position = lane_cell
-                valid_car = True
-            else:
-                valid_car = False  # flag for not detecting cars crossing the intersection or driving away from it
+    #         if lane_group >= 1 and lane_group <= 7:
+    #             car_position = int(str(lane_group) + str(lane_cell))  # composition of the two postion ID to create a number in interval 0-79
+    #             valid_car = True
+    #         elif lane_group == 0:
+    #             car_position = lane_cell
+    #             valid_car = True
+    #         else:
+    #             valid_car = False  # flag for not detecting cars crossing the intersection or driving away from it
 
-            if valid_car:
-                state[car_position] = 1  # write the position of the car car_id in the state array in the form of "cell occupied"
-        return state
+    #         if valid_car:
+    #             state[car_position] = 1  # write the position of the car car_id in the state array in the form of "cell occupied"
+    #     return state
         
     
