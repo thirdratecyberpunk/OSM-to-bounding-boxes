@@ -153,3 +153,7 @@ if __name__ == "__main__":
                             xlabel='Episode',
                             ylabel='Average queue length (vehicles)', 
                             agent=Model.agent_name)
+        Visualization.save_local_performance_as_csv(
+            [Simulation.reward_store, Simulation.cumulative_wait_store, Simulation.avg_queue_length_store],
+            "performance.csv"
+        )
