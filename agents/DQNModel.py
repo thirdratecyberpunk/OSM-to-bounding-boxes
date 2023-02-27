@@ -13,8 +13,6 @@ import torch.nn.functional as F
 
 
 class DQN(nn.Module):
-    # TODO: make in_features not hardcoded based on environment size
-    # could add a method to get state size in environments?
     def __init__(self, in_features=80, num_actions=4):
         """
         Initialize a deep Q-learning network as described in
@@ -44,7 +42,7 @@ def vector_to_tensor(vector):
 # uses a neural network to learn a distribution
 # takes state as input, generates Q-value for all possible actions as output
 class DeepQLearningAgent():
-    def __init__(self, epsilon=0.05, alpha=0.1, gamma=1, batch_size=128, in_features=80, possible_actions=3):
+    def __init__(self, epsilon=0.05, alpha=0.1, gamma=1, batch_size=128, in_features=80, possible_actions=8):
         # checking CUDA support
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(self.device)
@@ -56,13 +54,11 @@ class DeepQLearningAgent():
         self.gamma = gamma
         self.in_features = in_features
         # neural network outputs Q(state, action) for all possible actions
-        # for gridworld, all actions are UP, DOWN, LEFT, RIGHT
-        # therefore output should contain 4 outputs
         self.possible_actions = possible_actions
         # policy network
-        self.policy_qnn = DQN(in_features).to(self.device)
+        self.policy_qnn = DQN(in_features, num_actions=self.possible_actions).to(self.device)
         # neural network that acts as the Q function approximator
-        self.target_qnn = DQN(in_features).to(self.device)
+        self.target_qnn = DQN(in_features, num_actions=self.possible_actions).to(self.device)
         # loss function
         self.loss_function = nn.MSELoss()
         # loss value

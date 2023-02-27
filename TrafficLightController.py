@@ -7,6 +7,7 @@ Class representing an agent controlling a traffic light
 """
 import traci
 import numpy as np
+import sys
 
 class TrafficLightController:
     # def __init__(self, possible_phases, tlid, lanes, incoming_roads, outgoing_roads, num_states, edges_to_action):
@@ -51,7 +52,7 @@ class TrafficLightController:
         # print(f"Activated yellow phase on action {old_action}, phase {self.possible_phases[old_action]}")
         # TODO: check if the yellow phase code is ALWAYS the next value up
         # not 100% convinced this is how it should be handled
-        action_number = old_action + 1 # obtain the yellow phase code, based on the old action (ref on environment.net.xml)
+        action_number = (old_action + 1)  # obtain the yellow phase code, based on the old action (ref on environment.net.xml)
         # print(f"{self.tlid} chose action {action_number}, phase {self.possible_phases[action_number]}")
         traci.trafficlight.setPhase(self.tlid, action_number)
         
@@ -182,4 +183,14 @@ class TrafficLightController:
         # in our case, we count the number of lanes controlled by this traffic light
         return len(traci.trafficlight.getControlledLanes(self.tlid)) + 1
         
-    
+    """
+    Returns the size of the action space (i.e. number of possible traffic phases)
+    """
+    def get_action_space(self):
+        # gets the RYG definition
+        # currently assumes a single predefined program logic
+        program_logic = traci.trafficlight.getAllProgramLogics(self.tlid)
+        print(program_logic[0].phases)
+        action_space = len(program_logic[0].phases)
+        # counts the number of phase objects and returns that
+        return action_space

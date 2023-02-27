@@ -57,7 +57,7 @@ if __name__ == "__main__":
         "rrGGGrrrGGrrrrrrrrGGrrrrr",
         "rryyyrrryyrrrrrrrryyrrrrr"
         ],
-        # TODO: see if this can be derived from TRACI rather than hard coded
+        # TODO: see if this can be obtained from TRACI rather than hard coded
         edges_to_action={
             # L/R
             "610375444#0": 4,
@@ -84,13 +84,15 @@ if __name__ == "__main__":
     #     alpha = config['alpha']
     # )
 
+    print(TrafficLightController0.get_action_space())
+
     Model = DQNModel(
         config['num_layers'], 
         config['width_layers'], 
         config['batch_size'], 
         config['learning_rate'], 
         input_dim=TrafficLightController0.get_state_space(), 
-        output_dim=config['num_actions']
+        output_dim=TrafficLightController0.get_action_space()
     )
 
     if config['save']:
