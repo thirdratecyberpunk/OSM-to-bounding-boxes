@@ -30,4 +30,6 @@
         <gui-settings-file value="osm.view.xml"/>
     </gui_only>
 
+    <random value = "true"/>
+
 </configuration>

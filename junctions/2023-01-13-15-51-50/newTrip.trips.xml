@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-01-30 14:25:36.236114 by randomTrips.py UNKNOWN
+<configuration>
+    <binomial value="1"/>
+    <flows value="10"/>
+    <net-file value="junctions/2023-01-13-15-51-50/osm.net.xml.gz"/>
+    <period value="3.0"/>
+    <route-file value="junctions/2023-01-13-15-51-50/newRoutes.rou.xml"/>
+    <output-trip-file value="junctions/2023-01-13-15-51-50/newTrip.trips.xml"/>
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <flow id="0#0" begin="0" end="3600" probability="0.1" from="321443000#1" to="-267925924#0"/>
+    <flow id="1#0" begin="0" end="3600" probability="0.1" from="-610375443#1" to="-364470427"/>
+    <flow id="2#0" begin="0" end="3600" probability="0.1" from="364470427" to="360779398#1"/>
+    <flow id="3#0" begin="0" end="3600" probability="0.1" from="610375444#0" to="-321443000#0"/>
+    <flow id="4#0" begin="0" end="3600" probability="0.1" from="-876624229#0" to="-267925924#0"/>
+    <flow id="5#0" begin="0" end="3600" probability="0.1" from="-610375443#0" to="267925924#0"/>
+    <flow id="6#0" begin="0" end="3600" probability="0.1" from="-267925924#0" to="-360779398#1"/>
+    <flow id="7#0" begin="0" end="3600" probability="0.1" from="321443000#1" to="267925924#0"/>
+    <flow id="8#0" begin="0" end="3600" probability="0.1" from="-610375443#0" to="267925924#1"/>
+    <flow id="9#0" begin="0" end="3600" probability="0.1" from="610375443#1" to="-267925924#0"/>
+</routes>
