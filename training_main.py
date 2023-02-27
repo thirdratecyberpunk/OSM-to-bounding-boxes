@@ -47,7 +47,6 @@ if __name__ == "__main__":
         # incoming_roads=["610375444#0", "-610375447#1", "-610375443#0", "-360779398#1"],
         outgoing_roads=["-610375444#0", "360779398#1","610375443#0", "-610375447#1"],
         incoming_roads=["610375444#0", "-360779398#1", "-610375443#0", "610375447#1"],
-        # num_states=config['num_states'],
         possible_phases=["rrrGGrrrrrGGGggrrrrrGGGgg",
         "rrryyrrrrryyyggrrrrryyygg",
         "rrrGGrrrrrrrrGGrrrrrrrrGG",
@@ -69,31 +68,29 @@ if __name__ == "__main__":
     )
 
     # non-RL benchmarks
-    # Model = PreTimedModel(duration=1, actions=8)
+    Model = PreTimedModel(duration=1, actions=TrafficLightController0.get_action_space())
     # Model = HighestPressureModel(tlc=TrafficLightController0)
     # Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
-    # Model = GreedyWaitingTimeModel(tlc=TrafficLightController0)
+    Model = GreedyWaitingTimeModel(tlc=TrafficLightController0)
     # Model = HighestPressureModel(tlc=TrafficLightController0)
 
     # RL benchmarks
     # Model = VPGModel(
-    #     input_dim=config['num_states'], 
-    #     output_dim=config['num_actions'],
+    #     input_dim=TrafficLightController0.get_state_space(), 
+    #     output_dim=actions=TrafficLightController0.get_action_space(),
     #     gamma = config['gamma'],
     #     epsilon = config['epsilon'],
     #     alpha = config['alpha']
     # )
 
-    print(TrafficLightController0.get_action_space())
-
-    Model = DQNModel(
-        config['num_layers'], 
-        config['width_layers'], 
-        config['batch_size'], 
-        config['learning_rate'], 
-        input_dim=TrafficLightController0.get_state_space(), 
-        output_dim=TrafficLightController0.get_action_space()
-    )
+    # Model = DQNModel(
+    #     config['num_layers'], 
+    #     config['width_layers'], 
+    #     config['batch_size'], 
+    #     config['learning_rate'], 
+    #     input_dim=TrafficLightController0.get_state_space(), 
+    #     output_dim=TrafficLightController0.get_action_space()
+    # )
 
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])
@@ -115,8 +112,6 @@ if __name__ == "__main__":
         config['max_steps'],
         config['green_duration'],
         config['yellow_duration'],
-        config['num_states'],
-        config['num_actions'],
         config['training_epochs'],
     )
     

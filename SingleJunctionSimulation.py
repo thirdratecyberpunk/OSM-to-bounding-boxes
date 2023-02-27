@@ -14,7 +14,7 @@ import torch
 from agents import VPGAgent
 
 class SingleJunctionSimulation:
-    def __init__(self, Model, TrafficLightController, sumo_cmd, gamma, max_steps, green_duration, yellow_duration, num_states, num_actions, training_epochs):
+    def __init__(self, Model, TrafficLightController, sumo_cmd, gamma, max_steps, green_duration, yellow_duration, training_epochs):
         self._Model = Model
         self._TrafficLightController = TrafficLightController
         self._gamma = gamma
@@ -23,8 +23,6 @@ class SingleJunctionSimulation:
         self._max_steps = max_steps
         self._green_duration = green_duration
         self._yellow_duration = yellow_duration
-        self._num_states = num_states
-        self._num_actions = num_actions
         self._reward_store = []
         self._cumulative_wait_store = []
         self._avg_queue_length_store = []
