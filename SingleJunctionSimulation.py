@@ -55,7 +55,6 @@ class SingleJunctionSimulation:
             # current_state = self._TrafficLightController._get_state()
             # print(f"Yingyi style state: {self._TrafficLightController._yingyi_state()}")
             current_state = self._TrafficLightController._yingyi_state()
-            print(self._TrafficLightController.get_state_space())
 
             # calculate reward of previous action: (change in cumulative waiting time between actions)
             # waiting time = seconds waited by a car since the spawn in the environment, cumulated for every car in incoming lanes
@@ -68,10 +67,10 @@ class SingleJunctionSimulation:
 
             # choose the light phase to activate, based on the current state of the intersection
             # TODO: rewrite the agent architecture so it's not doing Model._model, this is awkward
-            # action = self._Model._model.choose_action(current_state)
             action = self._Model.choose_action(current_state)
 
             # if the chosen phase is different from the last phase, activate the yellow phase
+            # and simulate those steps
             if self._step != 0 and old_action != action:
                 self._TrafficLightController._set_yellow_phase(old_action)
                 self._simulate(self._yellow_duration)
