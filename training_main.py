@@ -43,8 +43,6 @@ if __name__ == "__main__":
             "610375443#1_1":4,
             "610375443#1_2":4,
         },
-        # outgoing_roads=["-610375444#0", "610375447#1", "610375443#0", "360779398#1"],
-        # incoming_roads=["610375444#0", "-610375447#1", "-610375443#0", "-360779398#1"],
         outgoing_roads=["-610375444#0", "360779398#1","610375443#0", "-610375447#1"],
         incoming_roads=["610375444#0", "-360779398#1", "-610375443#0", "610375447#1"],
         possible_phases=["rrrGGrrrrrGGGggrrrrrGGGgg",
@@ -84,10 +82,13 @@ if __name__ == "__main__":
     # )
 
     Model = DQNModel( 
-        config['batch_size'], 
-        config['learning_rate'], 
+        batch_size=config['batch_size'], 
+        learning_rate=config['learning_rate'], 
         input_dim=TrafficLightController0.get_state_space(), 
-        output_dim=TrafficLightController0.get_action_space()
+        output_dim=TrafficLightController0.get_action_space(),
+        alpha=config['alpha'],
+        epsilon=config['epsilon'],
+        gamma=config['gamma']
     )
 
     if config['save']:

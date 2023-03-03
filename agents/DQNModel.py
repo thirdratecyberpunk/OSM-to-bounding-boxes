@@ -86,6 +86,7 @@ class DeepQLearningAgent():
         else:
             # gets the values associated with action states from the neural network
             q_values = self.policy_qnn.forward(current_state_tensor)
+            print(q_values)
             q_values_for_states = dict(zip(range(self.possible_actions), (x.item() for x in q_values)))
             # chooses the action with the best known 
             action = sorted(q_values_for_states.items(), key=lambda x: x[1])[0][0]
@@ -179,19 +180,20 @@ class Memory:
         return len(self._samples)
 
 class TrainModel:
-    def __init__(self, width, batch_size, learning_rate, input_dim, output_dim):
+    def __init__(self, batch_size, learning_rate, input_dim, output_dim, epsilon, alpha, gamma):
         self._input_dim = input_dim
         self._output_dim = output_dim
         self._batch_size = batch_size
         self._learning_rate = learning_rate
-        self._model = self._build_model(output_dim)
+        self._model = self._build_model(epsilon, alpha, gamma, input_dim, output_dim)
         self._memory = Memory(600,50000)
 
-    def _build_model(self, output_dim):
+    def _build_model(self, epsilon, alpha, gamma, input_dim, output_dim):
         """
         Build and compile a fully connected deep neural network
         """
-        agent = DeepQLearningAgent(self._input_dim, output_dim)
+        print(epsilon, alpha, gamma, input_dim, output_dim)
+        agent = DeepQLearningAgent(epsilon=epsilon, alpha=alpha, gamma=gamma, in_features=input_dim, possible_actions=output_dim)
         return agent
 
     def choose_action(self, current_state):
