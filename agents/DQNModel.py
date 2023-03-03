@@ -192,7 +192,6 @@ class TrainModel:
         """
         Build and compile a fully connected deep neural network
         """
-        print(epsilon, alpha, gamma, input_dim, output_dim)
         agent = DeepQLearningAgent(epsilon=epsilon, alpha=alpha, gamma=gamma, in_features=input_dim, possible_actions=output_dim)
         return agent
 

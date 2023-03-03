@@ -86,12 +86,16 @@ class TrafficLightController:
         incoming and outgoing roads
         """
         highest_pressure = 0
-        highest_pressure_num = 0
+        highest_pressure_action = 0
+        highest_pressure_road = 0
         for count, value in enumerate(self.incoming_roads):
+            road_to_check = self.incoming_roads[count]
             if (self._calculate_pressure(count) > highest_pressure):
                 highest_pressure = self._calculate_pressure(count)
-                highest_pressure_num = count
-        return highest_pressure_num
+                highest_pressure_action = self.edges_to_action[road_to_check]
+                highest_pressure_road = road_to_check
+        # print(f"highest pressure road is is {highest_pressure_road} with {highest_pressure}, taking action {highest_pressure_action}")
+        return highest_pressure_action
     
     def _get_greedy_queue_length_action(self):
         """
@@ -157,7 +161,7 @@ class TrafficLightController:
     1) the current phase code for the traffic light as the first value
     2) the value for getLastStepHaltingNumber for each lane controlled by this traffic light as the rest
     """
-    def _yingyi_state(self):
+    def _get_state(self):
         # gets a list of all the lanes controlled by this traffic light
         self.controlled_lanes = traci.trafficlight.getControlledLanes(self.tlid)
         obs = []
