@@ -180,13 +180,13 @@ class Memory:
         return len(self._samples)
 
 class TrainModel:
-    def __init__(self, batch_size, learning_rate, input_dim, output_dim, epsilon, alpha, gamma):
+    def __init__(self, batch_size, learning_rate, input_dim, output_dim, epsilon, alpha, gamma, memory_size_min, memory_size_max):
         self._input_dim = input_dim
         self._output_dim = output_dim
         self._batch_size = batch_size
         self._learning_rate = learning_rate
         self._model = self._build_model(epsilon, alpha, gamma, input_dim, output_dim)
-        self._memory = Memory(600,50000)
+        self._memory = Memory(memory_size_min, memory_size_max)
 
     def _build_model(self, epsilon, alpha, gamma, input_dim, output_dim):
         """

@@ -6,13 +6,16 @@ import datetime
 from shutil import copyfile
 
 from SingleJunctionSimulation import SingleJunctionSimulation
+
 from agents.DQNModel import TrainModel as DQNModel
 from agents.VPGModel import TrainModel as VPGModel
 from agents.PreTimedModel import PreTimedModel
 from agents.GreedyQueueSizeModel import GreedyQueueSizeModel
 from agents.HighestPressureModel import HighestPressureModel
 from agents.GreedyWaitingTimeModel import GreedyWaitingTimeModel
+
 from TrafficLightController import TrafficLightController
+
 from visualization import Visualization
 from utils import import_train_configuration, set_sumo, set_train_path, set_top_path
 
@@ -73,23 +76,25 @@ if __name__ == "__main__":
     # Model = HighestPressureModel(tlc=TrafficLightController0)
 
     # RL benchmarks
-    Model = VPGModel(
-        input_dim=TrafficLightController0.get_state_space(), 
-        output_dim=TrafficLightController0.get_action_space(),
-        gamma = config['gamma'],
-        epsilon = config['epsilon'],
-        alpha = config['alpha']
-    )
-
-    # Model = DQNModel( 
-    #     batch_size=config['batch_size'], 
-    #     learning_rate=config['learning_rate'], 
+    # Model = VPGModel(
     #     input_dim=TrafficLightController0.get_state_space(), 
     #     output_dim=TrafficLightController0.get_action_space(),
-    #     alpha=config['alpha'],
-    #     epsilon=config['epsilon'],
-    #     gamma=config['gamma']
+    #     gamma = config['gamma'],
+    #     epsilon = config['epsilon'],
+    #     alpha = config['alpha']
     # )
+
+    Model = DQNModel( 
+        batch_size=config['batch_size'], 
+        learning_rate=config['learning_rate'], 
+        input_dim=TrafficLightController0.get_state_space(), 
+        output_dim=TrafficLightController0.get_action_space(),
+        alpha=config['alpha'],
+        epsilon=config['epsilon'],
+        gamma=config['gamma'],
+        memory_size_min=config['memory_size_min'],
+        memory_size_max=config['memory_size_max']
+    )
 
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])
