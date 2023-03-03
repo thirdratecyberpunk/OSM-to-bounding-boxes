@@ -153,9 +153,9 @@ class TrafficLightController:
         return total_waiting_time
     
     """
-    Returns a representation of the state as an array of 1D arrays containing:
-    1) the current phase code for the traffic light
-    2) the value for getLastStepHaltingNumber for each lane controlled by this traffic light
+    Returns a representation of the state as a 2D array containing:
+    1) the current phase code for the traffic light as the first value
+    2) the value for getLastStepHaltingNumber for each lane controlled by this traffic light as the rest
     """
     def _yingyi_state(self):
         # gets a list of all the lanes controlled by this traffic light
