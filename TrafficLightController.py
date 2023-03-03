@@ -171,9 +171,9 @@ class TrafficLightController:
         # converts the observation to a numpy array
         obs_tl = np.array(obs_tl)
         # appends this observation to the array of observations
-        obs.append(obs_tl)
-        obs = np.array(obs)
-        return obs
+        # obs.append(obs_tl)
+        # obs = np.array(obs)
+        return obs_tl
 
     """
     Returns the size of the state space for initialising neural networks
