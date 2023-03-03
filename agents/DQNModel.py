@@ -42,7 +42,7 @@ def vector_to_tensor(vector):
 # uses a neural network to learn a distribution
 # takes state as input, generates Q-value for all possible actions as output
 class DeepQLearningAgent():
-    def __init__(self, epsilon=0.05, alpha=0.1, gamma=1, batch_size=128, in_features=80, possible_actions=8):
+    def __init__(self, epsilon=0.05, alpha=0.1, gamma=1, batch_size=128, in_features=26, possible_actions=8):
         # checking CUDA support
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(self.device)
@@ -179,15 +179,15 @@ class Memory:
         return len(self._samples)
 
 class TrainModel:
-    def __init__(self, num_layers, width, batch_size, learning_rate, input_dim, output_dim):
+    def __init__(self, width, batch_size, learning_rate, input_dim, output_dim):
         self._input_dim = input_dim
         self._output_dim = output_dim
         self._batch_size = batch_size
         self._learning_rate = learning_rate
-        self._model = self._build_model(num_layers, output_dim)
+        self._model = self._build_model(output_dim)
         self._memory = Memory(600,50000)
 
-    def _build_model(self, num_layers, output_dim):
+    def _build_model(self, output_dim):
         """
         Build and compile a fully connected deep neural network
         """

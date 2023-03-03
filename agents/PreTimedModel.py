@@ -16,7 +16,7 @@ class PreTimedModel:
         self._duration = duration
         self._elapsed_duration = 0
 
-    def _build_model(self, num_layers, output_dim):
+    def _build_model(self, output_dim):
         pass
     
     def choose_action(self, current_state):

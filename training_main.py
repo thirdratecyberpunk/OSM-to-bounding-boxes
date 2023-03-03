@@ -83,9 +83,7 @@ if __name__ == "__main__":
     #     alpha = config['alpha']
     # )
 
-    Model = DQNModel(
-        config['num_layers'], 
-        config['width_layers'], 
+    Model = DQNModel( 
         config['batch_size'], 
         config['learning_rate'], 
         input_dim=TrafficLightController0.get_state_space(), 

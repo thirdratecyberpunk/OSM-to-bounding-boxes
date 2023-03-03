@@ -10,7 +10,7 @@ class GreedyQueueSizeModel:
     def __init__(self, tlc):
         self._tlc = tlc
 
-    def _build_model(self, num_layers, output_dim):
+    def _build_model(self, output_dim):
         pass
     
     def choose_action(self, current_state):

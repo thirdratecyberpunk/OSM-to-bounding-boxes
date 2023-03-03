@@ -18,8 +18,6 @@ def import_train_configuration(config_file):
     config['n_cars_generated'] = content['simulation'].getint('n_cars_generated')
     config['green_duration'] = content['simulation'].getint('green_duration')
     config['yellow_duration'] = content['simulation'].getint('yellow_duration')
-    config['num_layers'] = content['model'].getint('num_layers')
-    config['width_layers'] = content['model'].getint('width_layers')
     config['batch_size'] = content['model'].getint('batch_size')
     config['learning_rate'] = content['model'].getfloat('learning_rate')
     config['training_epochs'] = content['model'].getint('training_epochs')
