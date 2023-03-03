@@ -11,8 +11,6 @@ import timeit
 import os
 import torch
 
-from agents import VPGAgent
-
 class SingleJunctionSimulation:
     def __init__(self, Model, TrafficLightController, sumo_cmd, gamma, max_steps, green_duration, yellow_duration, training_epochs):
         self._Model = Model

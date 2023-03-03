@@ -7,7 +7,7 @@ from shutil import copyfile
 
 from SingleJunctionSimulation import SingleJunctionSimulation
 from agents.DQNModel import TrainModel as DQNModel
-from agents.pytorch_vpg_model import TrainModel as VPGModel
+from agents.VPGModel import TrainModel as VPGModel
 from agents.PreTimedModel import PreTimedModel
 from agents.GreedyQueueSizeModel import GreedyQueueSizeModel
 from agents.HighestPressureModel import HighestPressureModel
@@ -73,23 +73,23 @@ if __name__ == "__main__":
     # Model = HighestPressureModel(tlc=TrafficLightController0)
 
     # RL benchmarks
-    # Model = VPGModel(
-    #     input_dim=TrafficLightController0.get_state_space(), 
-    #     output_dim=actions=TrafficLightController0.get_action_space(),
-    #     gamma = config['gamma'],
-    #     epsilon = config['epsilon'],
-    #     alpha = config['alpha']
-    # )
-
-    Model = DQNModel( 
-        batch_size=config['batch_size'], 
-        learning_rate=config['learning_rate'], 
+    Model = VPGModel(
         input_dim=TrafficLightController0.get_state_space(), 
         output_dim=TrafficLightController0.get_action_space(),
-        alpha=config['alpha'],
-        epsilon=config['epsilon'],
-        gamma=config['gamma']
+        gamma = config['gamma'],
+        epsilon = config['epsilon'],
+        alpha = config['alpha']
     )
+
+    # Model = DQNModel( 
+    #     batch_size=config['batch_size'], 
+    #     learning_rate=config['learning_rate'], 
+    #     input_dim=TrafficLightController0.get_state_space(), 
+    #     output_dim=TrafficLightController0.get_action_space(),
+    #     alpha=config['alpha'],
+    #     epsilon=config['epsilon'],
+    #     gamma=config['gamma']
+    # )
 
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])
