@@ -145,7 +145,7 @@ class DeepQLearningAgent():
         return checkpoint["epoch"]
 
 class Memory:
-    def __init__(self, size_max, size_min):
+    def __init__(self, size_min, size_max):
         self._samples = []
         self._size_max = size_max
         self._size_min = size_min
@@ -164,7 +164,9 @@ class Memory:
         """
         Get n samples randomly from the memory
         """
+        print(f"{self._size_now()} samples")
         if self._size_now() < self._size_min:
+            print(f"returning empty sample set as {self._size_now()} < {self._size_min}")
             return []
 
         if n > self._size_now():
@@ -186,7 +188,7 @@ class TrainModel:
         self._batch_size = batch_size
         self._learning_rate = learning_rate
         self._model = self._build_model(epsilon, alpha, gamma, input_dim, output_dim)
-        self._memory = Memory(memory_size_min, memory_size_max)
+        self._memory = Memory(size_min=memory_size_min, size_max=memory_size_max)
 
     def _build_model(self, epsilon, alpha, gamma, input_dim, output_dim):
         """
@@ -257,8 +259,11 @@ class TrainModel:
         """
         Retrieve a group of samples from the memory and for each of them update the learning equation, then train
         """
+        print("replay called!")
+        print(self._memory._samples)
+        print(f"Getting {self._model.batch_size} samples from the memory")
         batch = self._memory.get_samples(self._model.batch_size)
-
+        print(batch)
         if len(batch) > 0:  # if the memory is full enough
             states = np.array([val[0] for val in batch])  # extract states from the batch
             next_states = np.array([val[3] for val in batch])  # extract next states from the batch

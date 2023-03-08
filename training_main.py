@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
     # non-RL benchmarks
     # Model = PreTimedModel(duration=1, actions=TrafficLightController0.get_action_space())
-    Model = HighestPressureModel(tlc=TrafficLightController0)
+    # Model = HighestPressureModel(tlc=TrafficLightController0)
     # Model = GreedyQueueSizeModel(tlc=TrafficLightController0)
     # Model = GreedyWaitingTimeModel(tlc=TrafficLightController0)
     # Model = HighestPressureModel(tlc=TrafficLightController0)
@@ -84,17 +84,17 @@ if __name__ == "__main__":
     #     alpha = config['alpha']
     # )
 
-    # Model = DQNModel( 
-    #     batch_size=config['batch_size'], 
-    #     learning_rate=config['learning_rate'], 
-    #     input_dim=TrafficLightController0.get_state_space(), 
-    #     output_dim=TrafficLightController0.get_action_space(),
-    #     alpha=config['alpha'],
-    #     epsilon=config['epsilon'],
-    #     gamma=config['gamma'],
-    #     memory_size_min=config['memory_size_min'],
-    #     memory_size_max=config['memory_size_max']
-    # )
+    Model = DQNModel( 
+        batch_size=config['batch_size'], 
+        learning_rate=config['learning_rate'], 
+        input_dim=TrafficLightController0.get_state_space(), 
+        output_dim=TrafficLightController0.get_action_space(),
+        alpha=config['alpha'],
+        epsilon=config['epsilon'],
+        gamma=config['gamma'],
+        memory_size_min=config['memory_size_min'],
+        memory_size_max=config['memory_size_max']
+    )
 
     if config['save']:
         path = set_top_path(config['models_path_name'], [Model])
