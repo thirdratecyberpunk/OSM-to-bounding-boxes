@@ -61,7 +61,7 @@ for i in range(timestep):
     traci.simulationStep() # repeat 0...n
     # create a .csv file for a timestep containing the x/y/angle positions of all vehicles currently in the simulation
     with open(f'{results_dir}/csvs/junction_timestep_{padded_i}.csv', 'w', newline='') as csvfile:
-        fieldnames = ['vehicle', 'x', 'y', 'lon', 'lat',  'angle']
+        fieldnames = ['vehicle', 'x', 'y', 'lon', 'lat',  'angle', 'color']
         csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
         csvwriter.writeheader()
         # get a list of all the vehicles
@@ -71,7 +71,8 @@ for i in range(timestep):
             x,y = traci.vehicle.getPosition(vehicle)
             lon, lat = traci.simulation.convertGeo(x, y)
             angle = traci.vehicle.getAngle(vehicle)
-            csvwriter.writerow({'vehicle': vehicle, 'x' : x, 'y': y, 'angle': angle,'lon': lon, 'lat': lat})
+            color = traci.vehicle.getColor(vehicle)
+            csvwriter.writerow({'vehicle': vehicle, 'x' : x, 'y': y, 'angle': angle,'lon': lon, 'lat': lat, 'color': color})
 
     if (i % image_timestep == 0):
         traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{results_dir}/images/junction_timestep_{padded_i}.png")
