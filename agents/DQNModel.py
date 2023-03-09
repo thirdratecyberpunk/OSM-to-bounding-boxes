@@ -86,7 +86,6 @@ class DeepQLearningAgent():
         else:
             # gets the values associated with action states from the neural network
             q_values = self.policy_qnn.forward(current_state_tensor)
-            print(q_values)
             q_values_for_states = dict(zip(range(self.possible_actions), (x.item() for x in q_values)))
             # chooses the action with the best known 
             action = sorted(q_values_for_states.items(), key=lambda x: x[1])[0][0]
@@ -259,14 +258,13 @@ class TrainModel:
         """
         Retrieve a group of samples from the memory and for each of them update the learning equation, then train
         """
-        print("replay called!")
-        print(self._memory._samples)
-        print(f"Getting {self._model.batch_size} samples from the memory")
         batch = self._memory.get_samples(self._model.batch_size)
-        print(batch)
         if len(batch) > 0:  # if the memory is full enough
             states = np.array([val[0] for val in batch])  # extract states from the batch
             next_states = np.array([val[3] for val in batch])  # extract next states from the batch
+
+            print(states[0])
+            print(next_states[0])
 
             # prediction
             q_s_a = self.predict_batch(states)  # predict Q(state), for every sample
@@ -274,7 +272,7 @@ class TrainModel:
 
             # setup training arrays
             x = np.zeros((len(batch), self._model.in_features))
-            y = np.zeros((len(batch), self._model.possible_actions + 1))
+            y = np.zeros((len(batch), self._model.possible_actions))
 
             for i, b in enumerate(batch):
                 state, action, reward, _ = b[0], b[1], b[2], b[3]  # extract data from one sample

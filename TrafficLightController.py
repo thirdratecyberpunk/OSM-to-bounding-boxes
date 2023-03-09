@@ -42,7 +42,6 @@ class TrafficLightController:
         """
         Activate the correct green light combination in sumo
         """
-        # print(f"{self.tlid} chose action {action_number}, phase {self.possible_phases[action_number]}")
         traci.trafficlight.setPhase(self.tlid, action_number)
     
     def _set_yellow_phase(self, old_action):
@@ -51,11 +50,9 @@ class TrafficLightController:
         If the phase is EVEN, return the next phase (yellow phase for that action)
         If the phase is ODD, that already IS a yellow phase and therefore should just return it
         """
-        # print(f"Activated yellow phase on action {old_action}, phase {self.possible_phases[old_action]}")
         # TODO: check if the yellow phase code is ALWAYS the next value up
         # not 100% convinced this is how it should be handled
         action_number = (old_action + 1) if (old_action % 2 == 0) else old_action # obtain the yellow phase code, based on the old action (ref on environment.net.xml)
-        # print(f"{self.tlid} chose action {action_number}, phase {self.possible_phases[action_number]}")
         traci.trafficlight.setPhase(self.tlid, action_number)
         
     def _get_queue_length(self):
@@ -194,7 +191,6 @@ class TrafficLightController:
         # gets the RYG definition
         # currently assumes a single predefined program logic
         program_logic = traci.trafficlight.getAllProgramLogics(self.tlid)
-        print(program_logic[0].phases)
         action_space = len(program_logic[0].phases)
         # counts the number of phase objects and returns that
         return action_space
