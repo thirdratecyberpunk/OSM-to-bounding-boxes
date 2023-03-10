@@ -61,23 +61,27 @@ for i in range(timestep):
     traci.simulationStep() # repeat 0...n
     # create a .csv file for a timestep containing the x/y/angle positions of all vehicles currently in the simulation
     with open(f'{results_dir}/csvs/junction_timestep_{padded_i}.csv', 'w', newline='') as csvfile:
-        fieldnames = ['vehicle', 'vclass', 'x', 'y', 'lon', 'lat',  'angle', 'color']
+        fieldnames = ['vehicle', 'vclass', 'x_metres', 'y_metres', 'width_metres', 'height_metres', 'lon', 'lat',  'angle', 'color']
         csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
         csvwriter.writeheader()
         # get a list of all the vehicles
         vehicles = traci.vehicle.getIDList()
         # for each vehicle in the simulation, write a .csv row containing the vehicles
         for vehicle in vehicles:
-            x,y = traci.vehicle.getPosition(vehicle)
-            lon, lat = traci.simulation.convertGeo(x, y)
+            x_metres,y_metres = traci.vehicle.getPosition(vehicle)
+            width_metres = traci.vehicle.getWidth(vehicle)
+            height_metres = traci.vehicle.getHeight(vehicle)
+            lon, lat = traci.simulation.convertGeo(x_metres, y_metres)
             angle = traci.vehicle.getAngle(vehicle)
             color = traci.vehicle.getColor(vehicle)
             vclass = traci.vehicle.getVehicleClass(vehicle)
             csvwriter.writerow({
                 'vehicle': vehicle,
                 'vclass': vclass,
-                'x' : x, 
-                'y': y, 
+                'x_metres' : x_metres, 
+                'y_metres': y_metres,
+                'width_metres': width_metres,
+                'height_metres': height_metres, 
                 'angle': angle,
                 'lon': lon, 
                 'lat': lat, 
