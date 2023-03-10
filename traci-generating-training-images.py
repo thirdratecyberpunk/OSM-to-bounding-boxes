@@ -50,6 +50,15 @@ if new_flow:
     print(f"Generating new route and flow file for this run with seed {seed}")
     generate_new_route_and_flow(seed)
 
+# calculating image ratios for normalisation
+# TODO: parameterise this, not sure if you can get the size of a viewport in pixels 
+# through TRACI yet
+# using default values, 70px = 10m
+# image defaults to w=1838 px h = 828px
+screenshot_w = 1838
+screenshot_h = 828
+metre_in_pixels = (10/70)
+
 sumo_cmd = set_sumo(gui, sumocfg_file_name, timestep)
 
 # start a simulation in SUMO and take screenshots every x timesteps
@@ -61,7 +70,7 @@ for i in range(timestep):
     traci.simulationStep() # repeat 0...n
     # create a .csv file for a timestep containing the x/y/angle positions of all vehicles currently in the simulation
     with open(f'{results_dir}/csvs/junction_timestep_{padded_i}.csv', 'w', newline='') as csvfile:
-        fieldnames = ['vehicle', 'vclass', 'x_metres', 'y_metres', 'width_metres', 'height_metres', 'lon', 'lat',  'angle', 'color']
+        fieldnames = ['vehicle', 'vclass', 'x_metres', 'y_metres', 'width_metres', 'height_metres', 'bb_x_metres', 'bb_y_metres', 'width_normalised', 'height_normalised', 'bb_x_normalised', 'bb_y_normalised', 'lon', 'lat',  'angle', 'color']
         csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
         csvwriter.writeheader()
         # get a list of all the vehicles
@@ -69,25 +78,42 @@ for i in range(timestep):
         # for each vehicle in the simulation, write a .csv row containing the vehicles
         for vehicle in vehicles:
             x_metres,y_metres = traci.vehicle.getPosition(vehicle)
+            # x_metres/y_metres refers to position in the CENTRE of the front bumper
+            # therefore position of centre for bounding box
+            # x_metres + (width_metres / 2), y_metres + (height_metres / 2)
             width_metres = traci.vehicle.getWidth(vehicle)
             height_metres = traci.vehicle.getHeight(vehicle)
+            bb_x_metres = x_metres + (width_metres / 2)
+            bb_y_metres = y_metres + (height_metres / 2)
+            # normalising the values
+            # in this case, turning the values from m to ratio of pixels
+            width_normalised = (width_metres * metre_in_pixels) / screenshot_w
+            height_normalised = (height_metres * metre_in_pixels) / screenshot_h
+            bb_x_normalised = (bb_x_metres * metre_in_pixels) / screenshot_w
+            bb_y_normalised = (bb_y_metres * metre_in_pixels) / screenshot_h
             lon, lat = traci.simulation.convertGeo(x_metres, y_metres)
             angle = traci.vehicle.getAngle(vehicle)
             color = traci.vehicle.getColor(vehicle)
             vclass = traci.vehicle.getVehicleClass(vehicle)
+            # TODO: convert vclass values into expected format for Daniel's .txt input
             csvwriter.writerow({
                 'vehicle': vehicle,
                 'vclass': vclass,
                 'x_metres' : x_metres, 
                 'y_metres': y_metres,
                 'width_metres': width_metres,
-                'height_metres': height_metres, 
+                'height_metres': height_metres,
+                'bb_x_metres' : bb_x_metres, 
+                'bb_y_metres': bb_y_metres,
+                'width_normalised': width_normalised,
+                'height_normalised' : height_normalised, 
+                'bb_x_normalised' : bb_x_normalised,
+                'bb_y_normalised': bb_y_normalised, 
                 'angle': angle,
                 'lon': lon, 
                 'lat': lat, 
                 'color': color
             })
-
     if (i % image_timestep == 0):
         traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{results_dir}/images/junction_timestep_{padded_i}.png")
 traci.close()
