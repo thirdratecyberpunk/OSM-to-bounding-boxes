@@ -37,13 +37,16 @@ to_transform = imread('example_data/junction_timestep_001.png')
 
 # SOURCE is the image we're mapping 
 
-dst = np.array([[259, 290], 
-[311,123], 
-[161,138]])
+# dst = np.array([[259, 290], 
+# [311,123], 
+# [161,138]])
 
-src = np.array([[305, 207], 
-[302,94], 
-[192,164]])
+# src = np.array([[305, 207], 
+# [302,94], 
+# [192,164]])
+
+dst = np.genfromtxt('example_data/dst.csv', delimiter=',', encoding='utf-16')
+src = np.genfromtxt('example_data/src.csv', delimiter=',', encoding='utf-16')
 
 tform = transform.ProjectiveTransform()
 tform.estimate(src, dst)
