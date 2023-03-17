@@ -19,6 +19,8 @@ parser.add_argument('--image_timestep', type = int, default = 1, help="Timestep 
 parser.add_argument('--generate_movie', default=False, action='store_true', help="Flag for if you want an mp4 of the simulation runthrough.")
 parser.add_argument('--new_flow', default=True, action='store_true', help="Flag for if you want to generate a new route/flow pair.")
 parser.add_argument('--seed', type=int, default=-1, help='Seed for generating flow/route files, defaults to -1 which chooses a random seed if not using a specific seed.')
+parser.add_argument('--image_w', type=int, default=1838, help='Width of the screenshot to generate in pixels.')
+parser.add_argument('--image_h', type=int, default=828, help='Height of the screenshot to generate in pixels.')
 
 args = parser.parse_args()
 seed = args.seed
@@ -28,6 +30,15 @@ sumocfg_file_name = args.file
 timestep = args.timestep
 image_timestep = args.image_timestep
 generate_movie = args.generate_movie
+image_w = args.image_w
+image_h = args.image_h
+
+# calculating image ratios for normalisation
+# TODO: parameterise this, not sure if you can get the size of a viewport in pixels 
+# through TRACI yet
+# using default values, 70px = 10m
+# image defaults to w=1838 px h = 828px
+metre_in_pixels = (10/70)
 
 # create folders for results of current run
 results_dir = f"./results/{datetime.now().strftime('%Y%m%d-%H%M%S')}"
@@ -49,15 +60,6 @@ if new_flow:
         seed = random.randint(1,1000)
     print(f"Generating new route and flow file for this run with seed {seed}")
     generate_new_route_and_flow(seed)
-
-# calculating image ratios for normalisation
-# TODO: parameterise this, not sure if you can get the size of a viewport in pixels 
-# through TRACI yet
-# using default values, 70px = 10m
-# image defaults to w=1838 px h = 828px
-screenshot_w = 1838
-screenshot_h = 828
-metre_in_pixels = (10/70)
 
 sumo_cmd = set_sumo(gui, sumocfg_file_name, timestep)
 
@@ -87,10 +89,10 @@ for i in range(timestep):
             bb_y_metres = y_metres + (height_metres / 2)
             # normalising the values
             # in this case, turning the values from m to ratio of pixels
-            width_normalised = (width_metres * metre_in_pixels) / screenshot_w
-            height_normalised = (height_metres * metre_in_pixels) / screenshot_h
-            bb_x_normalised = (bb_x_metres * metre_in_pixels) / screenshot_w
-            bb_y_normalised = (bb_y_metres * metre_in_pixels) / screenshot_h
+            width_normalised = (width_metres * metre_in_pixels) / image_w
+            height_normalised = (height_metres * metre_in_pixels) / image_h
+            bb_x_normalised = (bb_x_metres * metre_in_pixels) / image_w
+            bb_y_normalised = (bb_y_metres * metre_in_pixels) / image_h
             lon, lat = traci.simulation.convertGeo(x_metres, y_metres)
             angle = traci.vehicle.getAngle(vehicle)
             color = traci.vehicle.getColor(vehicle)
@@ -115,7 +117,7 @@ for i in range(timestep):
                 'color': color
             })
     if (i % image_timestep == 0):
-        traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{results_dir}/images/junction_timestep_{padded_i}.png")
+        traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{results_dir}/images/junction_timestep_{padded_i}.png", width=image_w, height=image_h)
 traci.close()
 
 # creating a video via ffmpeg of results
