@@ -151,3 +151,9 @@ if generate_movie:
         .output(f'{results_dir}/movie.mp4')
         .run()
     )
+    (
+        ffmpeg
+        .input(f'{results_dir}/homographed_images/*.png', pattern_type='glob', framerate=25)
+        .output(f'{results_dir}/homographed_movie.mp4')
+        .run()
+    )
