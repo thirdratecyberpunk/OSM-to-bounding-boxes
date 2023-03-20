@@ -8,7 +8,16 @@ import os
 import csv
 import random
 
+from skimage import transform, io
+from skimage.io import imread, imsave
+from transforming import camera_translation
+
+import time
+
 from utils import set_sumo, generate_new_route_and_flow
+
+def pad_timestep(i):
+    return str(i).zfill(len(str(timestep)))
 
 # load in arguments from CL
 parser = argparse.ArgumentParser(description="Generates screenshots and videos of junction states through simulations in SUMO.")
@@ -45,6 +54,7 @@ results_dir = f"./results/{datetime.now().strftime('%Y%m%d-%H%M%S')}"
 if not os.path.exists(results_dir):
     os.makedirs(results_dir)
     os.makedirs(f"{results_dir}/images")
+    os.makedirs(f"{results_dir}/homographed_images")
     os.makedirs(f"{results_dir}/csvs")
 
 # saving generation configuration
@@ -63,11 +73,13 @@ if new_flow:
 
 sumo_cmd = set_sumo(gui, sumocfg_file_name, timestep)
 
+tform = camera_translation()
+
 # start a simulation in SUMO and take screenshots every x timesteps
 traci.start(sumo_cmd)
 for i in range(timestep):
     # sanitising number for filenames
-    padded_i = str(i).zfill(len(str(timestep)))
+    padded_i = pad_timestep(i)
 
     traci.simulationStep() # repeat 0...n
     # create a .csv file for a timestep containing the x/y/angle positions of all vehicles currently in the simulation
@@ -118,6 +130,16 @@ for i in range(timestep):
             })
     if (i % image_timestep == 0):
         traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{results_dir}/images/junction_timestep_{padded_i}.png", width=image_w, height=image_h)
+        # screenshot saves the image at the NEXT call to simulationStep, so warp acts on the previous screenshot
+        # time.sleep(10)
+        # to_transform = imread(f"{results_dir}/images/junction_timestep_{padded_i}.png")
+        # warped = transform.warp(to_transform, tform)
+        # io.imsave(f"{results_dir}/homographed_images/junction_timestep_{padded_i}.png", warped)
+        # warped = transform.warp(to_transform, tform)
+    if (i > 0):
+        to_transform = imread(f"{results_dir}/images/junction_timestep_{pad_timestep(i - 1)}.png")
+        warped = transform.warp(to_transform, tform)
+        io.imsave(f"{results_dir}/homographed_images/junction_timestep_{padded_i}.png", warped)
 traci.close()
 
 # creating a video via ffmpeg of results
