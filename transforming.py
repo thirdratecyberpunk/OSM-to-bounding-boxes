@@ -8,29 +8,34 @@ from skimage.io import imread, imshow
 from skimage import transform
 from skimage import data
 
-def camera_translation():
-    """
-    Returns the transformation object that warps the SUMO images to match
-    the CCTV camera
-    """
-    # import the two images
-    cctv_footage = imread('example_data/frame4538.jpg')
-    to_transform = imread('example_data/junction_timestep_001.png')
+import cv2
 
-    # estimate transformation based on source/destination coordinates
+class FootageTransformation:
+    def __init__(self):
+        # import the two images
+        # cctv_footage = imread('example_data/frame4538.jpg')
+        # to_transform = imread('example_data/junction_timestep_001.png')
+        self.dst = np.genfromtxt('example_data/dst.csv', delimiter=',', encoding='utf-16')
+        self.src = np.genfromtxt('example_data/src.csv', delimiter=',', encoding='utf-16')
+        self.camera_tform = transform.ProjectiveTransform()
+        self.camera_tform.estimate(self.src, self.dst)
+        self.mtx = cv2.getPerspectiveTransform(self.src, self.dst)
 
-    # SOURCE is the image we're mapping 
-    # DST is the image we're attempting to mimic with the homography
-
-    dst = np.genfromtxt('example_data/dst.csv', delimiter=',', encoding='utf-16')
-    src = np.genfromtxt('example_data/src.csv', delimiter=',', encoding='utf-16')
-
-    print(dst,src)
-
-    tform = transform.ProjectiveTransform()
-    tform.estimate(src, dst)
-    return tform
+    def camera_translation(self):
+        """
+        Returns the transformation object that warps the SUMO images to match
+        the CCTV camera
+        """
+        return self.camera_tform
     
+    def coordinate_translation(self):
+        """
+        Returns the transformation object that warps the coordinates to match
+        the homography
+        """
+        return self.mtx
+
+
 # warped = transform.warp(to_transform, tform)
 
 # need to figure out how to apply these transformations to

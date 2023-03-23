@@ -10,7 +10,8 @@ import random
 
 from skimage import transform, io
 from skimage.io import imread, imsave
-from transforming import camera_translation
+
+from transforming import FootageTransformation
 
 import time
 
@@ -73,7 +74,9 @@ if new_flow:
 
 sumo_cmd = set_sumo(gui, sumocfg_file_name, timestep)
 
-tform = camera_translation()
+ft = FootageTransformation()
+tform = ft.camera_translation()
+coord_tform = ft.coordinate_translation()
 
 # start a simulation in SUMO and take screenshots every x timesteps
 traci.start(sumo_cmd)
@@ -112,7 +115,9 @@ for i in range(timestep):
             # TODO: convert vclass values into expected format for Daniel's .txt input
             csvwriter.writerow({
                 'vehicle': vehicle,
-                'vclass': vclass,
+                # 'vclass': vclass,
+                #  this is hardcoded as 0 for Daniel's .csv reader for now
+                'vclass': 0,
                 'x_metres' : x_metres, 
                 'y_metres': y_metres,
                 'width_metres': width_metres,
@@ -130,13 +135,9 @@ for i in range(timestep):
             })
     if (i % image_timestep == 0):
         traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{results_dir}/images/junction_timestep_{padded_i}.png", width=image_w, height=image_h)
-        # screenshot saves the image at the NEXT call to simulationStep, so warp acts on the previous screenshot
-        # time.sleep(10)
-        # to_transform = imread(f"{results_dir}/images/junction_timestep_{padded_i}.png")
-        # warped = transform.warp(to_transform, tform)
-        # io.imsave(f"{results_dir}/homographed_images/junction_timestep_{padded_i}.png", warped)
-        # warped = transform.warp(to_transform, tform)
+    # screenshot saves the image at the NEXT call to simulationStep, so warp acts on the previous screenshot
     if (i > 0):
+        # warping image results
         to_transform = imread(f"{results_dir}/images/junction_timestep_{pad_timestep(i - 1)}.png")
         warped = transform.warp(to_transform, tform)
         io.imsave(f"{results_dir}/homographed_images/junction_timestep_{padded_i}.png", warped)
