@@ -13,7 +13,6 @@ from skimage.io import imread, imsave
 
 from transforming import FootageTransformation
 
-import time
 import numpy as np
 from utils import set_sumo, generate_new_route_and_flow
 
@@ -86,7 +85,7 @@ for i in range(timestep):
     traci.simulationStep() # repeat 0...n
     # create a .csv file for a timestep containing the x/y/angle positions of all vehicles currently in the simulation
     with open(f'{results_dir}/csvs/junction_timestep_{padded_i}.csv', 'w', newline='') as csvfile:
-        fieldnames = ['vehicle', 'vclass', 'x_metres', 'y_metres', 'width_metres', 'height_metres', 'bb_x_metres', 'bb_y_metres', 'bb_x_homographed', 'bb_y_homographed', 'width_normalised', 'height_normalised', 'bb_x_normalised', 'bb_y_normalised', 'lon', 'lat',  'angle', 'color']
+        fieldnames = ['vehicle', 'vclass', 'x_metres', 'y_metres', 'width_metres', 'height_metres', 'bb_x_metres', 'bb_y_metres', 'bb_x_homographed', 'bb_y_homographed', 'bb_x_homographed_normalised', 'bb_y_homographed_normalised', 'width_normalised', 'height_normalised', 'bb_x_normalised', 'bb_y_normalised', 'lon', 'lat',  'angle', 'color']
         csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
         csvwriter.writeheader()
         # get a list of all the vehicles
@@ -111,6 +110,8 @@ for i in range(timestep):
             height_normalised = (height_metres * metre_in_pixels) / image_h
             bb_x_normalised = (bb_x_metres * metre_in_pixels) / image_w
             bb_y_normalised = (bb_y_metres * metre_in_pixels) / image_h
+            bb_x_homographed_normalised = (bb_x_homographed * metre_in_pixels) / image_w
+            bb_y_homographed_normalised = (bb_y_homographed * metre_in_pixels) / image_h
             lon, lat = traci.simulation.convertGeo(x_metres, y_metres)
             angle = traci.vehicle.getAngle(vehicle)
             color = traci.vehicle.getColor(vehicle)
@@ -129,6 +130,8 @@ for i in range(timestep):
                 'bb_y_metres': bb_y_metres,
                 'bb_x_homographed': bb_x_homographed,
                 'bb_y_homographed': bb_y_homographed,
+                'bb_x_homographed_normalised': bb_x_homographed_normalised,
+                'bb_y_homographed_normalised': bb_y_homographed_normalised,
                 'width_normalised': width_normalised,
                 'height_normalised' : height_normalised, 
                 'bb_x_normalised' : bb_x_normalised,
