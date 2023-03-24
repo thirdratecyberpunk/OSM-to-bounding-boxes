@@ -48,23 +48,27 @@ class FootageTransformation:
     
     def translate_coordinates(self, to_transform):
         """
-        Takes the 
+        Takes a set of x/y coordinates and returns the homographed set
         """
         return cv2.perspectiveTransform(to_transform, self.mtx)
+    
+    def show_homography_plot(self):
+        """
+        Helper function to display the points homography
+        uses as reference and translation result
+        """
+        cctv_footage = imread('example_data/frame4538.jpg')
+        to_transform = imread('example_data/junction_timestep_001.png')
+        
+        warped = self.translate_image(to_transform)
 
-# warped = transform.warp(to_transform, tform)
+        fig, ax = plt.subplots(nrows=3, figsize=(8, 3))
 
-# need to figure out how to apply these transformations to
-# the normalised coordinates - calculate changes made to image 
-# then calculate new normalised values?
+        ax[0].imshow(to_transform, cmap=plt.cm.gray)
+        ax[0].plot(self.dst[:, 0], self.dst[:, 1], '.r')
+        ax[1].imshow(cctv_footage)
+        ax[1].plot(self.src[:, 0], self.src[:, 1], '.r')
+        ax[2].imshow(warped, cmap=plt.cm.gray)
 
-# fig, ax = plt.subplots(nrows=3, figsize=(8, 3))
-
-# ax[0].imshow(to_transform, cmap=plt.cm.gray)
-# ax[0].plot(dst[:, 0], dst[:, 1], '.r')
-# ax[1].imshow(cctv_footage)
-# ax[1].plot(src[:, 0], src[:, 1], '.r')
-# ax[2].imshow(warped, cmap=plt.cm.gray)
-
-# plt.show()
+        plt.show()
 

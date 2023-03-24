@@ -74,7 +74,7 @@ if new_flow:
 sumo_cmd = set_sumo(gui, sumocfg_file_name, timestep)
 
 ft = FootageTransformation()
-coord_tform = ft.coordinate_translation()
+ft.show_homography_plot()
 
 # start a simulation in SUMO and take screenshots every x timesteps
 traci.start(sumo_cmd)
