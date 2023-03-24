@@ -14,7 +14,7 @@ from skimage.io import imread, imsave
 from transforming import FootageTransformation
 
 import time
-
+import numpy as np
 from utils import set_sumo, generate_new_route_and_flow
 
 def pad_timestep(i):
@@ -75,7 +75,6 @@ if new_flow:
 sumo_cmd = set_sumo(gui, sumocfg_file_name, timestep)
 
 ft = FootageTransformation()
-tform = ft.camera_translation()
 coord_tform = ft.coordinate_translation()
 
 # start a simulation in SUMO and take screenshots every x timesteps
@@ -87,7 +86,7 @@ for i in range(timestep):
     traci.simulationStep() # repeat 0...n
     # create a .csv file for a timestep containing the x/y/angle positions of all vehicles currently in the simulation
     with open(f'{results_dir}/csvs/junction_timestep_{padded_i}.csv', 'w', newline='') as csvfile:
-        fieldnames = ['vehicle', 'vclass', 'x_metres', 'y_metres', 'width_metres', 'height_metres', 'bb_x_metres', 'bb_y_metres', 'width_normalised', 'height_normalised', 'bb_x_normalised', 'bb_y_normalised', 'lon', 'lat',  'angle', 'color']
+        fieldnames = ['vehicle', 'vclass', 'x_metres', 'y_metres', 'width_metres', 'height_metres', 'bb_x_metres', 'bb_y_metres', 'bb_x_homographed', 'bb_y_homographed', 'width_normalised', 'height_normalised', 'bb_x_normalised', 'bb_y_normalised', 'lon', 'lat',  'angle', 'color']
         csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
         csvwriter.writeheader()
         # get a list of all the vehicles
@@ -102,6 +101,10 @@ for i in range(timestep):
             height_metres = traci.vehicle.getHeight(vehicle)
             bb_x_metres = x_metres + (width_metres / 2)
             bb_y_metres = y_metres + (height_metres / 2)
+            to_transform = np.array([[((bb_x_metres, bb_y_metres))]])
+            translation_result = np.squeeze(ft.translate_coordinates(to_transform=to_transform))
+            bb_x_homographed, bb_y_homographed = translation_result[0], translation_result[1]
+
             # normalising the values
             # in this case, turning the values from m to ratio of pixels
             width_normalised = (width_metres * metre_in_pixels) / image_w
@@ -124,6 +127,8 @@ for i in range(timestep):
                 'height_metres': height_metres,
                 'bb_x_metres' : bb_x_metres, 
                 'bb_y_metres': bb_y_metres,
+                'bb_x_homographed': bb_x_homographed,
+                'bb_y_homographed': bb_y_homographed,
                 'width_normalised': width_normalised,
                 'height_normalised' : height_normalised, 
                 'bb_x_normalised' : bb_x_normalised,
@@ -139,13 +144,13 @@ for i in range(timestep):
     if (i > 0):
         # warping image results
         to_transform = imread(f"{results_dir}/images/junction_timestep_{pad_timestep(i - 1)}.png")
-        warped = transform.warp(to_transform, tform)
+        warped = ft.translate_image(to_transform)
         io.imsave(f"{results_dir}/homographed_images/junction_timestep_{padded_i}.png", warped)
 traci.close()
 
 # creating a video via ffmpeg of results
 if generate_movie:
-    print("Generating movie...")
+    print("Generating movies...")
     (
         ffmpeg
         .input(f'{results_dir}/images/*.png', pattern_type='glob', framerate=25)

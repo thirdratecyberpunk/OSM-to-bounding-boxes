@@ -12,16 +12,20 @@ import cv2
 
 class FootageTransformation:
     def __init__(self):
-        # import the two images
-        # cctv_footage = imread('example_data/frame4538.jpg')
-        # to_transform = imread('example_data/junction_timestep_001.png')
-        self.dst = np.genfromtxt('example_data/dst.csv', delimiter=',', encoding='utf-16')
-        self.src = np.genfromtxt('example_data/src.csv', delimiter=',', encoding='utf-16')
+        # import the reference points from .csv files as float32s
+        self.dst = np.float32(np.genfromtxt('example_data/dst.csv', delimiter=',', encoding='utf-16'))
+        self.src = np.float32(np.genfromtxt('example_data/src.csv', delimiter=',', encoding='utf-16'))
+        
+        # image transformation from skimage
         self.camera_tform = transform.ProjectiveTransform()
         self.camera_tform.estimate(self.src, self.dst)
+
+        # calculating transformation object for coordinates
+        # using cv2 
+        # TODO: check if this can be used for image coords as well
         self.mtx = cv2.getPerspectiveTransform(self.src, self.dst)
 
-    def camera_translation(self):
+    def get_camera_tform(self):
         """
         Returns the transformation object that warps the SUMO images to match
         the CCTV camera
@@ -34,7 +38,19 @@ class FootageTransformation:
         the homography
         """
         return self.mtx
-
+    
+    def translate_image(self, to_transform):
+        """
+        Takes the image to warp as a numpy array,
+        returns the perspective warped image
+        """
+        return transform.warp(to_transform, self.camera_tform)
+    
+    def translate_coordinates(self, to_transform):
+        """
+        Takes the 
+        """
+        return cv2.perspectiveTransform(to_transform, self.mtx)
 
 # warped = transform.warp(to_transform, tform)
 
