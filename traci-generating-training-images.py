@@ -56,6 +56,7 @@ if not os.path.exists(results_dir):
     os.makedirs(f"{results_dir}/images")
     os.makedirs(f"{results_dir}/homographed_images")
     os.makedirs(f"{results_dir}/csvs")
+    os.makedirs(f"{results_dir}/txts")
 
 # saving generation configuration
 with open (f"{results_dir}/setup.txt", 'w') as f:
@@ -84,63 +85,69 @@ for i in range(timestep):
 
     traci.simulationStep() # repeat 0...n
     # create a .csv file for a timestep containing the x/y/angle positions of all vehicles currently in the simulation
-    with open(f'{results_dir}/csvs/junction_timestep_{padded_i}.csv', 'w', newline='') as csvfile:
-        fieldnames = ['vehicle', 'vclass', 'x_metres', 'y_metres', 'width_metres', 'height_metres', 'bb_x_metres', 'bb_y_metres', 'bb_x_homographed', 'bb_y_homographed', 'bb_x_homographed_normalised', 'bb_y_homographed_normalised', 'width_normalised', 'height_normalised', 'bb_x_normalised', 'bb_y_normalised', 'lon', 'lat',  'angle', 'color']
-        csvwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        csvwriter.writeheader()
-        # get a list of all the vehicles
-        vehicles = traci.vehicle.getIDList()
-        # for each vehicle in the simulation, write a .csv row containing the vehicles
-        for vehicle in vehicles:
-            x_metres,y_metres = traci.vehicle.getPosition(vehicle)
-            # x_metres/y_metres refers to position in the CENTRE of the front bumper
-            # therefore position of centre for bounding box
-            # x_metres + (width_metres / 2), y_metres + (height_metres / 2)
-            width_metres = traci.vehicle.getWidth(vehicle)
-            height_metres = traci.vehicle.getHeight(vehicle)
-            bb_x_metres = x_metres + (width_metres / 2)
-            bb_y_metres = y_metres + (height_metres / 2)
-            to_transform = np.array([[((bb_x_metres, bb_y_metres))]])
-            translation_result = np.squeeze(ft.translate_coordinates(to_transform=to_transform))
-            bb_x_homographed, bb_y_homographed = translation_result[0], translation_result[1]
+    csv_file = open(f'{results_dir}/csvs/junction_timestep_{padded_i}.csv', 'w', newline='')
+    txt_file = open(f'{results_dir}/txts/junction_timestep_{padded_i}.txt', 'w', newline='')
+    fieldnames = ['vehicle', 'vclass', 'x_metres', 'y_metres', 'width_metres', 'height_metres', 'bb_x_metres', 'bb_y_metres', 'bb_x_homographed', 'bb_y_homographed', 'bb_x_homographed_normalised', 'bb_y_homographed_normalised', 'width_normalised', 'height_normalised', 'bb_x_normalised', 'bb_y_normalised', 'lon', 'lat',  'angle', 'color']
+    csvwriter = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    csvwriter.writeheader()
+    # get a list of all the vehicles
+    vehicles = traci.vehicle.getIDList()
+    # for each vehicle in the simulation, write a .csv row containing the vehicles
+    for vehicle in vehicles:
+        x_metres,y_metres = traci.vehicle.getPosition(vehicle)
+        # x_metres/y_metres refers to position in the CENTRE of the front bumper
+        # therefore position of centre for bounding box
+        # x_metres + (width_metres / 2), y_metres + (height_metres / 2)
+        width_metres = traci.vehicle.getWidth(vehicle)
+        height_metres = traci.vehicle.getHeight(vehicle)
+        bb_x_metres = x_metres + (width_metres / 2)
+        bb_y_metres = y_metres + (height_metres / 2)
+        to_transform = np.array([[((bb_x_metres, bb_y_metres))]])
+        translation_result = np.squeeze(ft.translate_coordinates(to_transform=to_transform))
+        bb_x_homographed, bb_y_homographed = translation_result[0], translation_result[1]
 
-            # normalising the values
-            # in this case, turning the values from m to ratio of pixels
-            width_normalised = (width_metres * metre_in_pixels) / image_w
-            height_normalised = (height_metres * metre_in_pixels) / image_h
-            bb_x_normalised = (bb_x_metres * metre_in_pixels) / image_w
-            bb_y_normalised = (bb_y_metres * metre_in_pixels) / image_h
-            bb_x_homographed_normalised = (bb_x_homographed * metre_in_pixels) / image_w
-            bb_y_homographed_normalised = (bb_y_homographed * metre_in_pixels) / image_h
-            lon, lat = traci.simulation.convertGeo(x_metres, y_metres)
-            angle = traci.vehicle.getAngle(vehicle)
-            color = traci.vehicle.getColor(vehicle)
-            vclass = traci.vehicle.getVehicleClass(vehicle)
-            # TODO: convert vclass values into expected format for Daniel's .txt input
-            csvwriter.writerow({
-                'vehicle': vehicle,
-                # 'vclass': vclass,
-                #  this is hardcoded as 0 for Daniel's .csv reader for now
-                'vclass': 0,
-                'x_metres' : x_metres, 
-                'y_metres': y_metres,
-                'width_metres': width_metres,
-                'height_metres': height_metres,
-                'bb_x_metres' : bb_x_metres, 
-                'bb_y_metres': bb_y_metres,
-                'bb_x_homographed': bb_x_homographed,
-                'bb_y_homographed': bb_y_homographed,
-                'bb_x_homographed_normalised': bb_x_homographed_normalised,
-                'bb_y_homographed_normalised': bb_y_homographed_normalised,
-                'width_normalised': width_normalised,
-                'height_normalised' : height_normalised, 
-                'bb_x_normalised' : bb_x_normalised,
-                'bb_y_normalised': bb_y_normalised, 
-                'angle': angle,
-                'lon': lon, 
-                'lat': lat, 
-                'color': color
-            })
+        # normalising the values
+        # in this case, turning the values from m to ratio of pixels
+        width_normalised = (width_metres * metre_in_pixels) / image_w
+        height_normalised = (height_metres * metre_in_pixels) / image_h
+        bb_x_normalised = (bb_x_metres * metre_in_pixels) / image_w
+        bb_y_normalised = (bb_y_metres * metre_in_pixels) / image_h
+        bb_x_homographed_normalised = (bb_x_homographed * metre_in_pixels) / image_w
+        bb_y_homographed_normalised = (bb_y_homographed * metre_in_pixels) / image_h
+        lon, lat = traci.simulation.convertGeo(x_metres, y_metres)
+        angle = traci.vehicle.getAngle(vehicle)
+        color = traci.vehicle.getColor(vehicle)
+        vclass = traci.vehicle.getVehicleClass(vehicle)
+        # TODO: convert vclass values into expected format for Daniel's .txt input
+        csvwriter.writerow({
+            'vehicle': vehicle,
+            # 'vclass': vclass,
+            #  this is hardcoded as 0 for Daniel's .csv reader for now
+            'vclass': 0,
+            'x_metres' : x_metres, 
+            'y_metres': y_metres,
+            'width_metres': width_metres,
+            'height_metres': height_metres,
+            'bb_x_metres' : bb_x_metres, 
+            'bb_y_metres': bb_y_metres,
+            'bb_x_homographed': bb_x_homographed,
+            'bb_y_homographed': bb_y_homographed,
+            'bb_x_homographed_normalised': bb_x_homographed_normalised,
+            'bb_y_homographed_normalised': bb_y_homographed_normalised,
+            'width_normalised': width_normalised,
+            'height_normalised' : height_normalised, 
+            'bb_x_normalised' : bb_x_normalised,
+            'bb_y_normalised': bb_y_normalised, 
+            'angle': angle,
+            'lon': lon, 
+            'lat': lat, 
+            'color': color
+        })
+        # certainty is assumed to be 100% because we aren't running it through an image detection algorithm
+        txt_file.write(f"0 1.0 {bb_x_homographed_normalised} {bb_y_homographed_normalised} {height_normalised} {width_normalised}\n")
+    csv_file.close()
+    txt_file.close()
+
     if (i % image_timestep == 0):
         traci.gui.screenshot(traci.gui.DEFAULT_VIEW , f"{results_dir}/images/junction_timestep_{padded_i}.png", width=image_w, height=image_h)
     # screenshot saves the image at the NEXT call to simulationStep, so warp acts on the previous screenshot
