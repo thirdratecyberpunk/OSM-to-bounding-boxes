@@ -1,0 +1,4 @@
+<configuration>
+    <net-file value="Grid1by2.net.xml"/>
+    <route-files value="Grid1by2.rou.xml"/>
+</configuration>

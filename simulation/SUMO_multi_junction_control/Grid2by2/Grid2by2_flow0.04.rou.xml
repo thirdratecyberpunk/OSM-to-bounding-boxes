@@ -1,0 +1,67 @@
+<routes>
+	<vType id="typeCar" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" guiShape="passenger"/>
+
+	<flow id="04to05" begin="0" end="10000" probability="0.04" from="04to00" to="01to05"/>
+	<flow id="04to06" begin="0" end="10000" probability="0.04" from="04to00" to="01to06"/>
+	<flow id="04to07" begin="0" end="10000" probability="0.04" from="04to00" to="03to07"/>
+	<flow id="04to08" begin="0" end="10000" probability="0.04" from="04to00" to="03to08"/>
+	<flow id="04to09" begin="0" end="10000" probability="0.04" from="04to00" to="02to09"/>
+	<flow id="04to0a" begin="0" end="10000" probability="0.04" from="04to00" to="02to0a"/>
+	<flow id="04to0b" begin="0" end="10000" probability="0.04" from="04to00" to="00to0b"/>
+
+	<flow id="05to04" begin="0" end="10000" probability="0.04" from="05to01" to="00to04"/>
+	<flow id="05to06" begin="0" end="10000" probability="0.04" from="05to01" to="01to06"/>
+	<flow id="05to07" begin="0" end="10000" probability="0.04" from="05to01" to="03to07"/>
+	<flow id="05to08" begin="0" end="10000" probability="0.04" from="05to01" to="03to08"/>
+	<flow id="05to09" begin="0" end="10000" probability="0.04" from="05to01" to="02to09"/>
+	<flow id="05to0a" begin="0" end="10000" probability="0.04" from="05to01" to="02to0a"/>
+	<flow id="05to0b" begin="0" end="10000" probability="0.04" from="05to01" to="00to0b"/>
+
+	<flow id="06to04" begin="0" end="10000" probability="0.04" from="06to01" to="00to04"/>
+	<flow id="06to05" begin="0" end="10000" probability="0.04" from="06to01" to="01to05"/>
+	<flow id="06to07" begin="0" end="10000" probability="0.04" from="06to01" to="03to07"/>
+	<flow id="06to08" begin="0" end="10000" probability="0.04" from="06to01" to="03to08"/>
+	<flow id="06to09" begin="0" end="10000" probability="0.04" from="06to01" to="02to09"/>
+	<flow id="06to0a" begin="0" end="10000" probability="0.04" from="06to01" to="02to0a"/>
+	<flow id="06to0b" begin="0" end="10000" probability="0.04" from="06to01" to="00to0b"/>
+
+	<flow id="07to05" begin="0" end="10000" probability="0.04" from="07to03" to="01to05"/>
+	<flow id="07to06" begin="0" end="10000" probability="0.04" from="07to03" to="01to06"/>
+	<flow id="07to04" begin="0" end="10000" probability="0.04" from="07to03" to="00to04"/>
+	<flow id="07to08" begin="0" end="10000" probability="0.04" from="07to03" to="03to08"/>
+	<flow id="07to09" begin="0" end="10000" probability="0.04" from="07to03" to="02to09"/>
+	<flow id="07to0a" begin="0" end="10000" probability="0.04" from="07to03" to="02to0a"/>
+	<flow id="07to0b" begin="0" end="10000" probability="0.04" from="07to03" to="00to0b"/>
+
+	<flow id="08to05" begin="0" end="10000" probability="0.04" from="08to03" to="01to05"/>
+	<flow id="08to06" begin="0" end="10000" probability="0.04" from="08to03" to="01to06"/>
+	<flow id="08to07" begin="0" end="10000" probability="0.04" from="08to03" to="03to07"/>
+	<flow id="08to04" begin="0" end="10000" probability="0.04" from="08to03" to="00to04"/>
+	<flow id="08to09" begin="0" end="10000" probability="0.04" from="08to03" to="02to09"/>
+	<flow id="08to0a" begin="0" end="10000" probability="0.04" from="08to03" to="02to0a"/>
+	<flow id="08to0b" begin="0" end="10000" probability="0.04" from="08to03" to="00to0b"/>
+
+	<flow id="09to05" begin="0" end="10000" probability="0.04" from="09to02" to="01to05"/>
+	<flow id="09to06" begin="0" end="10000" probability="0.04" from="09to02" to="01to06"/>
+	<flow id="09to07" begin="0" end="10000" probability="0.04" from="09to02" to="03to07"/>
+	<flow id="09to08" begin="0" end="10000" probability="0.04" from="09to02" to="03to08"/>
+	<flow id="09to04" begin="0" end="10000" probability="0.04" from="09to02" to="00to04"/>
+	<flow id="09to0a" begin="0" end="10000" probability="0.04" from="09to02" to="02to0a"/>
+	<flow id="09to0b" begin="0" end="10000" probability="0.04" from="09to02" to="00to0b"/>
+
+	<flow id="0ato05" begin="0" end="10000" probability="0.04" from="0ato02" to="01to05"/>
+	<flow id="0ato06" begin="0" end="10000" probability="0.04" from="0ato02" to="01to06"/>
+	<flow id="0ato07" begin="0" end="10000" probability="0.04" from="0ato02" to="03to07"/>
+	<flow id="0ato08" begin="0" end="10000" probability="0.04" from="0ato02" to="03to08"/>
+	<flow id="0ato09" begin="0" end="10000" probability="0.04" from="0ato02" to="02to09"/>
+	<flow id="0ato04" begin="0" end="10000" probability="0.04" from="0ato02" to="00to04"/>
+	<flow id="0ato0b" begin="0" end="10000" probability="0.04" from="0ato02" to="00to0b"/>
+
+	<flow id="0bto05" begin="0" end="10000" probability="0.04" from="0bto00" to="01to05"/>
+	<flow id="0bto06" begin="0" end="10000" probability="0.04" from="0bto00" to="01to06"/>
+	<flow id="0bto07" begin="0" end="10000" probability="0.04" from="0bto00" to="03to07"/>
+	<flow id="0bto08" begin="0" end="10000" probability="0.04" from="0bto00" to="03to08"/>
+	<flow id="0bto09" begin="0" end="10000" probability="0.04" from="0bto00" to="02to09"/>
+	<flow id="0bto0a" begin="0" end="10000" probability="0.04" from="0bto00" to="02to0a"/>
+	<flow id="0bto04" begin="0" end="10000" probability="0.04" from="0bto00" to="00to04"/>
+</routes>

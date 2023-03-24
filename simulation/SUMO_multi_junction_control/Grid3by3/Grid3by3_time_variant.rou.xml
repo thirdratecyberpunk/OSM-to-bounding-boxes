@@ -1,0 +1,398 @@
+<routes>
+	<vType id="typeCar" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" guiShape="passenger"/>
+
+	<!-- Flow from 0 to 200 simulation steps -->
+	<!-- N_to_S traffic -->
+	<flow id="10to18_1" color="red" begin="0" end="200" probability="0.3" from="10to00" to="06to18"/>
+	<flow id="10to17_1" color="red" begin="0" end="200" probability="0.3" from="10to00" to="07to17"/>
+	<flow id="10to16_1" color="red" begin="0" end="200" probability="0.3" from="10to00" to="08to16"/>
+	<flow id="11to18_1" color="red" begin="0" end="200" probability="0.3" from="11to01" to="06to18"/>
+	<flow id="11to17_1" color="red" begin="0" end="200" probability="0.3" from="11to01" to="07to17"/>
+	<flow id="11to16_1" color="red" begin="0" end="200" probability="0.3" from="11to01" to="08to16"/>
+	<flow id="12to18_1" color="red" begin="0" end="200" probability="0.3" from="12to02" to="06to18"/>
+	<flow id="12to17_1" color="red" begin="0" end="200" probability="0.3" from="12to02" to="07to17"/>
+	<flow id="12to16_1" color="red" begin="0" end="200" probability="0.3" from="12to02" to="08to16"/>
+	<!-- S_to_N traffic -->
+	<!-- <flow id="16to10_1" color="blue" begin="0" end="200" probability="0.5" from="16to08" to="00to10"/>
+	<flow id="16to11_1" color="blue" begin="0" end="200" probability="0.5" from="16to08" to="01to11"/>
+	<flow id="16to12_1" color="blue" begin="0" end="200" probability="0.5" from="16to08" to="02to12"/>
+	<flow id="17to10_1" color="blue" begin="0" end="200" probability="0.5" from="17to07" to="00to10"/>
+	<flow id="17to11_1" color="blue" begin="0" end="200" probability="0.5" from="17to07" to="01to11"/>
+	<flow id="17to12_1" color="blue" begin="0" end="200" probability="0.5" from="17to07" to="02to12"/>
+	<flow id="18to10_1" color="blue" begin="0" end="200" probability="0.5" from="18to06" to="00to10"/>
+	<flow id="18to11_1" color="blue" begin="0" end="200" probability="0.5" from="18to06" to="01to11"/>
+	<flow id="18to12_1" color="blue" begin="0" end="200" probability="0.5" from="18to06" to="02to12"/> -->
+	<!-- W_to_E traffic -->
+	<flow id="19to13_1" color="orange" begin="0" end="200" probability="0.1" from="19to06" to="02to13"/>
+	<flow id="19to14_1" color="orange" begin="0" end="200" probability="0.1" from="19to06" to="05to14"/>
+	<flow id="19to15_1" color="orange" begin="0" end="200" probability="0.1" from="19to06" to="08to15"/>
+	<flow id="1ato13_1" color="orange" begin="0" end="200" probability="0.1" from="1ato03" to="02to13"/>
+	<flow id="1ato14_1" color="orange" begin="0" end="200" probability="0.1" from="1ato03" to="05to14"/>
+	<flow id="1ato15_1" color="orange" begin="0" end="200" probability="0.1" from="1ato03" to="08to15"/>
+	<flow id="1bto13_1" color="orange" begin="0" end="200" probability="0.1" from="1bto00" to="02to13"/>
+	<flow id="1bto14_1" color="orange" begin="0" end="200" probability="0.1" from="1bto00" to="05to14"/>
+	<flow id="1bto15_1" color="orange" begin="0" end="200" probability="0.1" from="1bto00" to="08to15"/>
+	<!-- E_to_W traffic -->
+	<!-- <flow id="13to19_1" color="green" begin="0" end="200" probability="0.5" from="13to02" to="06to19"/>
+	<flow id="13to1a_1" color="green" begin="0" end="200" probability="0.5" from="13to02" to="03to1a"/>
+	<flow id="13to1b_1" color="green" begin="0" end="200" probability="0.5" from="13to02" to="00to1b"/>
+	<flow id="14to19_1" color="green" begin="0" end="200" probability="0.5" from="14to05" to="06to19"/>
+	<flow id="14to1a_1" color="green" begin="0" end="200" probability="0.5" from="14to05" to="03to1a"/>
+	<flow id="14to1b_1" color="green" begin="0" end="200" probability="0.5" from="14to05" to="00to1b"/>
+	<flow id="15to19_1" color="green" begin="0" end="200" probability="0.5" from="15to08" to="06to19"/>
+	<flow id="15to1a_1" color="green" begin="0" end="200" probability="0.5" from="15to08" to="03to1a"/>
+	<flow id="15to1b_1" color="green" begin="0" end="200" probability="0.5" from="15to08" to="00to1b"/> -->
+
+
+	<!-- Flow from 201 to 400 simulation steps -->
+	<!-- N_to_S traffic -->
+	<flow id="10to18_2" color="red" begin="201" end="400" probability="0.5" from="10to00" to="06to18"/>
+	<flow id="10to17_2" color="red" begin="201" end="400" probability="0.5" from="10to00" to="07to17"/>
+	<flow id="10to16_2" color="red" begin="201" end="400" probability="0.5" from="10to00" to="08to16"/>
+	<flow id="11to18_2" color="red" begin="201" end="400" probability="0.5" from="11to01" to="06to18"/>
+	<flow id="11to17_2" color="red" begin="201" end="400" probability="0.5" from="11to01" to="07to17"/>
+	<flow id="11to16_2" color="red" begin="201" end="400" probability="0.5" from="11to01" to="08to16"/>
+	<flow id="12to18_2" color="red" begin="201" end="400" probability="0.5" from="12to02" to="06to18"/>
+	<flow id="12to17_2" color="red" begin="201" end="400" probability="0.5" from="12to02" to="07to17"/>
+	<flow id="12to16_2" color="red" begin="201" end="400" probability="0.5" from="12to02" to="08to16"/>
+	<!-- S_to_N traffic -->
+	<!-- <flow id="16to10" color="blue" begin="201" end="400" probability="0.5" from="16to08" to="00to10"/>
+	<flow id="16to11" color="blue" begin="201" end="400" probability="0.5" from="16to08" to="01to11"/>
+	<flow id="16to12" color="blue" begin="201" end="400" probability="0.5" from="16to08" to="02to12"/>
+	<flow id="17to10" color="blue" begin="201" end="400" probability="0.5" from="17to07" to="00to10"/>
+	<flow id="17to11" color="blue" begin="201" end="400" probability="0.5" from="17to07" to="01to11"/>
+	<flow id="17to12" color="blue" begin="201" end="400" probability="0.5" from="17to07" to="02to12"/>
+	<flow id="18to10" color="blue" begin="201" end="400" probability="0.5" from="18to06" to="00to10"/>
+	<flow id="18to11" color="blue" begin="201" end="400" probability="0.5" from="18to06" to="01to11"/>
+	<flow id="18to12" color="blue" begin="201" end="400" probability="0.5" from="18to06" to="02to12"/> -->
+	<!-- W_to_E traffic -->
+	<flow id="19to13_2" color="orange" begin="201" end="400" probability="0.2" from="19to06" to="02to13"/>
+	<flow id="19to14_2" color="orange" begin="201" end="400" probability="0.2" from="19to06" to="05to14"/>
+	<flow id="19to15_2" color="orange" begin="201" end="400" probability="0.2" from="19to06" to="08to15"/>
+	<flow id="1ato13_2" color="orange" begin="201" end="400" probability="0.2" from="1ato03" to="02to13"/>
+	<flow id="1ato14_2" color="orange" begin="201" end="400" probability="0.2" from="1ato03" to="05to14"/>
+	<flow id="1ato15_2" color="orange" begin="201" end="400" probability="0.2" from="1ato03" to="08to15"/>
+	<flow id="1bto13_2" color="orange" begin="201" end="400" probability="0.2" from="1bto00" to="02to13"/>
+	<flow id="1bto14_2" color="orange" begin="201" end="400" probability="0.2" from="1bto00" to="05to14"/>
+	<flow id="1bto15_2" color="orange" begin="201" end="400" probability="0.2" from="1bto00" to="08to15"/>
+	<!-- E_to_W traffic -->
+	<!-- <flow id="13to19" color="green" begin="201" end="400" probability="0.5" from="13to02" to="06to19"/>
+	<flow id="13to1a" color="green" begin="201" end="400" probability="0.5" from="13to02" to="03to1a"/>
+	<flow id="13to1b" color="green" begin="201" end="400" probability="0.5" from="13to02" to="00to1b"/>
+	<flow id="14to19" color="green" begin="201" end="400" probability="0.5" from="14to05" to="06to19"/>
+	<flow id="14to1a" color="green" begin="201" end="400" probability="0.5" from="14to05" to="03to1a"/>
+	<flow id="14to1b" color="green" begin="201" end="400" probability="0.5" from="14to05" to="00to1b"/>
+	<flow id="15to19" color="green" begin="201" end="400" probability="0.5" from="15to08" to="06to19"/>
+	<flow id="15to1a" color="green" begin="201" end="400" probability="0.5" from="15to08" to="03to1a"/>
+	<flow id="15to1b" color="green" begin="201" end="400" probability="0.5" from="15to08" to="00to1b"/> -->
+
+
+
+	<!-- Flow from 401 to 600 simulation steps -->
+	<!-- N_to_S traffic -->
+	<flow id="10to18_3" color="red" begin="401" end="600" probability="0.6" from="10to00" to="06to18"/>
+	<flow id="10to17_3" color="red" begin="401" end="600" probability="0.6" from="10to00" to="07to17"/>
+	<flow id="10to16_3" color="red" begin="401" end="600" probability="0.6" from="10to00" to="08to16"/>
+	<flow id="11to18_3" color="red" begin="401" end="600" probability="0.6" from="11to01" to="06to18"/>
+	<flow id="11to17_3" color="red" begin="401" end="600" probability="0.6" from="11to01" to="07to17"/>
+	<flow id="11to16_3" color="red" begin="401" end="600" probability="0.6" from="11to01" to="08to16"/>
+	<flow id="12to18_3_3" color="red" begin="401" end="600" probability="0.6" from="12to02" to="06to18"/>
+	<flow id="12to17_3" color="red" begin="401" end="600" probability="0.6" from="12to02" to="07to17"/>
+	<flow id="12to16_3" color="red" begin="401" end="600" probability="0.6" from="12to02" to="08to16"/>
+	<!-- S_to_N traffic -->
+	<!-- <flow id="16to10" color="blue" begin="401" end="600" probability="0.5" from="16to08" to="00to10"/>
+	<flow id="16to11" color="blue" begin="401" end="600" probability="0.5" from="16to08" to="01to11"/>
+	<flow id="16to12" color="blue" begin="401" end="600" probability="0.5" from="16to08" to="02to12"/>
+	<flow id="17to10" color="blue" begin="401" end="600" probability="0.5" from="17to07" to="00to10"/>
+	<flow id="17to11" color="blue" begin="401" end="600" probability="0.5" from="17to07" to="01to11"/>
+	<flow id="17to12" color="blue" begin="401" end="600" probability="0.5" from="17to07" to="02to12"/>
+	<flow id="18to10" color="blue" begin="401" end="600" probability="0.5" from="18to06" to="00to10"/>
+	<flow id="18to11" color="blue" begin="401" end="600" probability="0.5" from="18to06" to="01to11"/>
+	<flow id="18to12" color="blue" begin="401" end="600" probability="0.5" from="18to06" to="02to12"/> -->
+	<!-- W_to_E traffic -->
+	<flow id="19to13_3" color="orange" begin="401" end="600" probability="0.3" from="19to06" to="02to13"/>
+	<flow id="19to14_3" color="orange" begin="401" end="600" probability="0.3" from="19to06" to="05to14"/>
+	<flow id="19to15_3" color="orange" begin="401" end="600" probability="0.3" from="19to06" to="08to15"/>
+	<flow id="1ato13_3" color="orange" begin="401" end="600" probability="0.3" from="1ato03" to="02to13"/>
+	<flow id="1ato14_3" color="orange" begin="401" end="600" probability="0.3" from="1ato03" to="05to14"/>
+	<flow id="1ato15_3" color="orange" begin="401" end="600" probability="0.3" from="1ato03" to="08to15"/>
+	<flow id="1bto13_3" color="orange" begin="401" end="600" probability="0.3" from="1bto00" to="02to13"/>
+	<flow id="1bto14_3" color="orange" begin="401" end="600" probability="0.3" from="1bto00" to="05to14"/>
+	<flow id="1bto15_3" color="orange" begin="401" end="600" probability="0.3" from="1bto00" to="08to15"/>
+	<!-- E_to_W traffic -->
+	<!-- <flow id="13to19" color="green" begin="401" end="600" probability="0.5" from="13to02" to="06to19"/>
+	<flow id="13to1a" color="green" begin="401" end="600" probability="0.5" from="13to02" to="03to1a"/>
+	<flow id="13to1b" color="green" begin="401" end="600" probability="0.5" from="13to02" to="00to1b"/>
+	<flow id="14to19" color="green" begin="401" end="600" probability="0.5" from="14to05" to="06to19"/>
+	<flow id="14to1a" color="green" begin="401" end="600" probability="0.5" from="14to05" to="03to1a"/>
+	<flow id="14to1b" color="green" begin="401" end="600" probability="0.5" from="14to05" to="00to1b"/>
+	<flow id="15to19" color="green" begin="401" end="600" probability="0.5" from="15to08" to="06to19"/>
+	<flow id="15to1a" color="green" begin="401" end="600" probability="0.5" from="15to08" to="03to1a"/>
+	<flow id="15to1b" color="green" begin="401" end="600" probability="0.5" from="15to08" to="00to1b"/> -->
+
+
+
+	<!-- Flow from 601 to 800 simulation steps -->
+	<!-- N_to_S traffic -->
+	<flow id="10to18_4" color="red" begin="601" end="800" probability="0.45" from="10to00" to="06to18"/>
+	<flow id="10to17_4" color="red" begin="601" end="800" probability="0.45" from="10to00" to="07to17"/>
+	<flow id="10to16_4" color="red" begin="601" end="800" probability="0.45" from="10to00" to="08to16"/>
+	<flow id="11to18_4" color="red" begin="601" end="800" probability="0.45" from="11to01" to="06to18"/>
+	<flow id="11to17_4" color="red" begin="601" end="800" probability="0.45" from="11to01" to="07to17"/>
+	<flow id="11to16_4" color="red" begin="601" end="800" probability="0.45" from="11to01" to="08to16"/>
+	<flow id="12to18_4" color="red" begin="601" end="800" probability="0.45" from="12to02" to="06to18"/>
+	<flow id="12to17_4" color="red" begin="601" end="800" probability="0.45" from="12to02" to="07to17"/>
+	<flow id="12to16_4" color="red" begin="601" end="800" probability="0.45" from="12to02" to="08to16"/>
+	<!-- S_to_N traffic -->
+	<flow id="16to10_4" color="blue" begin="601" end="800" probability="0.1" from="16to08" to="00to10"/>
+	<flow id="16to11_4" color="blue" begin="601" end="800" probability="0.1" from="16to08" to="01to11"/>
+	<flow id="16to12_4" color="blue" begin="601" end="800" probability="0.1" from="16to08" to="02to12"/>
+	<flow id="17to10_4" color="blue" begin="601" end="800" probability="0.1" from="17to07" to="00to10"/>
+	<flow id="17to11_4" color="blue" begin="601" end="800" probability="0.1" from="17to07" to="01to11"/>
+	<flow id="17to12_4" color="blue" begin="601" end="800" probability="0.1" from="17to07" to="02to12"/>
+	<flow id="18to10_4" color="blue" begin="601" end="800" probability="0.1" from="18to06" to="00to10"/>
+	<flow id="18to11_4" color="blue" begin="601" end="800" probability="0.1" from="18to06" to="01to11"/>
+	<flow id="18to12_4" color="blue" begin="601" end="800" probability="0.1" from="18to06" to="02to12"/>
+	<!-- W_to_E traffic -->
+	<flow id="19to13_4" color="orange" begin="601" end="800" probability="0.25" from="19to06" to="02to13"/>
+	<flow id="19to14_4" color="orange" begin="601" end="800" probability="0.25" from="19to06" to="05to14"/>
+	<flow id="19to15_4" color="orange" begin="601" end="800" probability="0.25" from="19to06" to="08to15"/>
+	<flow id="1ato13_4" color="orange" begin="601" end="800" probability="0.25" from="1ato03" to="02to13"/>
+	<flow id="1ato14_4" color="orange" begin="601" end="800" probability="0.25" from="1ato03" to="05to14"/>
+	<flow id="1ato15_4" color="orange" begin="601" end="800" probability="0.25" from="1ato03" to="08to15"/>
+	<flow id="1bto13_4" color="orange" begin="601" end="800" probability="0.25" from="1bto00" to="02to13"/>
+	<flow id="1bto14_4" color="orange" begin="601" end="800" probability="0.25" from="1bto00" to="05to14"/>
+	<flow id="1bto15_4" color="orange" begin="601" end="800" probability="0.25" from="1bto00" to="08to15"/>
+	<!-- E_to_W traffic -->
+	<flow id="13to19_4" color="green" begin="601" end="800" probability="0.05" from="13to02" to="06to19"/>
+	<flow id="13to1a_4" color="green" begin="601" end="800" probability="0.05" from="13to02" to="03to1a"/>
+	<flow id="13to1b_4" color="green" begin="601" end="800" probability="0.05" from="13to02" to="00to1b"/>
+	<flow id="14to19_4" color="green" begin="601" end="800" probability="0.05" from="14to05" to="06to19"/>
+	<flow id="14to1a_4" color="green" begin="601" end="800" probability="0.05" from="14to05" to="03to1a"/>
+	<flow id="14to1b_4" color="green" begin="601" end="800" probability="0.05" from="14to05" to="00to1b"/>
+	<flow id="15to19_4" color="green" begin="601" end="800" probability="0.05" from="15to08" to="06to19"/>
+	<flow id="15to1a_4" color="green" begin="601" end="800" probability="0.05" from="15to08" to="03to1a"/>
+	<flow id="15to1b_4" color="green" begin="601" end="800" probability="0.05" from="15to08" to="00to1b"/>
+
+
+
+	<!-- Flow from 801 to 1000 simulation steps -->
+	<!-- N_to_S traffic -->
+	<flow id="10to18_5" color="red" begin="801" end="1000" probability="0.4" from="10to00" to="06to18"/>
+	<flow id="10to17_5" color="red" begin="801" end="1000" probability="0.4" from="10to00" to="07to17"/>
+	<flow id="10to16_5" color="red" begin="801" end="1000" probability="0.4" from="10to00" to="08to16"/>
+	<flow id="11to18_5" color="red" begin="801" end="1000" probability="0.4" from="11to01" to="06to18"/>
+	<flow id="11to17_5" color="red" begin="801" end="1000" probability="0.4" from="11to01" to="07to17"/>
+	<flow id="11to16_5" color="red" begin="801" end="1000" probability="0.4" from="11to01" to="08to16"/>
+	<flow id="12to18_5" color="red" begin="801" end="1000" probability="0.4" from="12to02" to="06to18"/>
+	<flow id="12to17_5" color="red" begin="801" end="1000" probability="0.4" from="12to02" to="07to17"/>
+	<flow id="12to16_5" color="red" begin="801" end="1000" probability="0.4" from="12to02" to="08to16"/>
+	<!-- S_to_N traffic -->
+	<flow id="16to10_5" color="blue" begin="801" end="1000" probability="0.3" from="16to08" to="00to10"/>
+	<flow id="16to11_5" color="blue" begin="801" end="1000" probability="0.3" from="16to08" to="01to11"/>
+	<flow id="16to12_5" color="blue" begin="801" end="1000" probability="0.3" from="16to08" to="02to12"/>
+	<flow id="17to10_5" color="blue" begin="801" end="1000" probability="0.3" from="17to07" to="00to10"/>
+	<flow id="17to11_5" color="blue" begin="801" end="1000" probability="0.3" from="17to07" to="01to11"/>
+	<flow id="17to12_5" color="blue" begin="801" end="1000" probability="0.3" from="17to07" to="02to12"/>
+	<flow id="18to10_5" color="blue" begin="801" end="1000" probability="0.3" from="18to06" to="00to10"/>
+	<flow id="18to11_5" color="blue" begin="801" end="1000" probability="0.3" from="18to06" to="01to11"/>
+	<flow id="18to12_5" color="blue" begin="801" end="1000" probability="0.3" from="18to06" to="02to12"/>
+	<!-- W_to_E traffic -->
+	<flow id="19to13_5" color="orange" begin="801" end="1000" probability="0.2" from="19to06" to="02to13"/>
+	<flow id="19to14_5" color="orange" begin="801" end="1000" probability="0.2" from="19to06" to="05to14"/>
+	<flow id="19to15_5" color="orange" begin="801" end="1000" probability="0.2" from="19to06" to="08to15"/>
+	<flow id="1ato13_5" color="orange" begin="801" end="1000" probability="0.2" from="1ato03" to="02to13"/>
+	<flow id="1ato14_5" color="orange" begin="801" end="1000" probability="0.2" from="1ato03" to="05to14"/>
+	<flow id="1ato15_5" color="orange" begin="801" end="1000" probability="0.2" from="1ato03" to="08to15"/>
+	<flow id="1bto13_5" color="orange" begin="801" end="1000" probability="0.2" from="1bto00" to="02to13"/>
+	<flow id="1bto14_5" color="orange" begin="801" end="1000" probability="0.2" from="1bto00" to="05to14"/>
+	<flow id="1bto15_5" color="orange" begin="801" end="1000" probability="0.2" from="1bto00" to="08to15"/>
+	<!-- E_to_W traffic -->
+	<flow id="13to19_5" color="green" begin="801" end="1000" probability="0.1" from="13to02" to="06to19"/>
+	<flow id="13to1a_5" color="green" begin="801" end="1000" probability="0.1" from="13to02" to="03to1a"/>
+	<flow id="13to1b_5" color="green" begin="801" end="1000" probability="0.1" from="13to02" to="00to1b"/>
+	<flow id="14to19_5" color="green" begin="801" end="1000" probability="0.1" from="14to05" to="06to19"/>
+	<flow id="14to1a_5" color="green" begin="801" end="1000" probability="0.1" from="14to05" to="03to1a"/>
+	<flow id="14to1b_5" color="green" begin="801" end="1000" probability="0.1" from="14to05" to="00to1b"/>
+	<flow id="15to19_5" color="green" begin="801" end="1000" probability="0.1" from="15to08" to="06to19"/>
+	<flow id="15to1a_5" color="green" begin="801" end="1000" probability="0.1" from="15to08" to="03to1a"/>
+	<flow id="15to1b_5" color="green" begin="801" end="1000" probability="0.1" from="15to08" to="00to1b"/>
+
+
+
+	<!-- Flow from 1001 to 1200 simulation steps -->
+	<!-- N_to_S traffic -->
+	<flow id="10to18_6" color="red" begin="1001" end="1200" probability="0.1" from="10to00" to="06to18"/>
+	<flow id="10to17_6" color="red" begin="1001" end="1200" probability="0.1" from="10to00" to="07to17"/>
+	<flow id="10to16_6" color="red" begin="1001" end="1200" probability="0.1" from="10to00" to="08to16"/>
+	<flow id="11to18_6" color="red" begin="1001" end="1200" probability="0.1" from="11to01" to="06to18"/>
+	<flow id="11to17_6" color="red" begin="1001" end="1200" probability="0.1" from="11to01" to="07to17"/>
+	<flow id="11to16_6" color="red" begin="1001" end="1200" probability="0.1" from="11to01" to="08to16"/>
+	<flow id="12to18_6" color="red" begin="1001" end="1200" probability="0.1" from="12to02" to="06to18"/>
+	<flow id="12to17_6" color="red" begin="1001" end="1200" probability="0.1" from="12to02" to="07to17"/>
+	<flow id="12to16_6" color="red" begin="1001" end="1200" probability="0.1" from="12to02" to="08to16"/>
+	<!-- S_to_N traffic -->
+	<flow id="16to10_6" color="blue" begin="1001" end="1200" probability="0.4" from="16to08" to="00to10"/>
+	<flow id="16to11_6" color="blue" begin="1001" end="1200" probability="0.4" from="16to08" to="01to11"/>
+	<flow id="16to12_6_6" color="blue" begin="1001" end="1200" probability="0.4" from="16to08" to="02to12"/>
+	<flow id="17to10" color="blue" begin="1001" end="1200" probability="0.4" from="17to07" to="00to10"/>
+	<flow id="17to11_6" color="blue" begin="1001" end="1200" probability="0.4" from="17to07" to="01to11"/>
+	<flow id="17to12_6" color="blue" begin="1001" end="1200" probability="0.4" from="17to07" to="02to12"/>
+	<flow id="18to10_6" color="blue" begin="1001" end="1200" probability="0.4" from="18to06" to="00to10"/>
+	<flow id="18to11_6" color="blue" begin="1001" end="1200" probability="0.4" from="18to06" to="01to11"/>
+	<flow id="18to12_6" color="blue" begin="1001" end="1200" probability="0.4" from="18to06" to="02to12"/>
+	<!-- W_to_E traffic -->
+	<flow id="19to13_6" color="orange" begin="1001" end="1200" probability="0.1" from="19to06" to="02to13"/>
+	<flow id="19to14_6" color="orange" begin="1001" end="1200" probability="0.1" from="19to06" to="05to14"/>
+	<flow id="19to15_6" color="orange" begin="1001" end="1200" probability="0.1" from="19to06" to="08to15"/>
+	<flow id="1ato13_6" color="orange" begin="1001" end="1200" probability="0.1" from="1ato03" to="02to13"/>
+	<flow id="1ato14_6" color="orange" begin="1001" end="1200" probability="0.1" from="1ato03" to="05to14"/>
+	<flow id="1ato15_6" color="orange" begin="1001" end="1200" probability="0.1" from="1ato03" to="08to15"/>
+	<flow id="1bto13_6" color="orange" begin="1001" end="1200" probability="0.1" from="1bto00" to="02to13"/>
+	<flow id="1bto14_6" color="orange" begin="1001" end="1200" probability="0.1" from="1bto00" to="05to14"/>
+	<flow id="1bto15_6" color="orange" begin="1001" end="1200" probability="0.1" from="1bto00" to="08to15"/>
+	<!-- E_to_W traffic -->
+	<flow id="13to19_6" color="green" begin="1001" end="1200" probability="0.2" from="13to02" to="06to19"/>
+	<flow id="13to1a_6" color="green" begin="1001" end="1200" probability="0.2" from="13to02" to="03to1a"/>
+	<flow id="13to1b_6" color="green" begin="1001" end="1200" probability="0.2" from="13to02" to="00to1b"/>
+	<flow id="14to19_6" color="green" begin="1001" end="1200" probability="0.2" from="14to05" to="06to19"/>
+	<flow id="14to1a_6" color="green" begin="1001" end="1200" probability="0.2" from="14to05" to="03to1a"/>
+	<flow id="14to1b_6" color="green" begin="1001" end="1200" probability="0.2" from="14to05" to="00to1b"/>
+	<flow id="15to19_6" color="green" begin="1001" end="1200" probability="0.2" from="15to08" to="06to19"/>
+	<flow id="15to1a_6" color="green" begin="1001" end="1200" probability="0.2" from="15to08" to="03to1a"/>
+	<flow id="15to1b_6" color="green" begin="1001" end="1200" probability="0.2" from="15to08" to="00to1b"/>
+
+
+
+	<!-- Flow from 1201 to 1400 simulation steps -->
+	<!-- N_to_S traffic -->
+	<!-- <flow id="10to18" color="red" begin="1201" end="1400" probability="0.1" from="10to00" to="06to18"/>
+	<flow id="10to17" color="red" begin="1201" end="1400" probability="0.1" from="10to00" to="07to17"/>
+	<flow id="10to16" color="red" begin="1201" end="1400" probability="0.1" from="10to00" to="08to16"/>
+	<flow id="11to18" color="red" begin="1201" end="1400" probability="0.1" from="11to01" to="06to18"/>
+	<flow id="11to17" color="red" begin="1201" end="1400" probability="0.1" from="11to01" to="07to17"/>
+	<flow id="11to16" color="red" begin="1201" end="1400" probability="0.1" from="11to01" to="08to16"/>
+	<flow id="12to18" color="red" begin="1201" end="1400" probability="0.1" from="12to02" to="06to18"/>
+	<flow id="12to17" color="red" begin="1201" end="1400" probability="0.1" from="12to02" to="07to17"/>
+	<flow id="12to16" color="red" begin="1201" end="1400" probability="0.1" from="12to02" to="08to16"/> -->
+	<!-- S_to_N traffic -->
+	<flow id="16to10_7" color="blue" begin="1201" end="1400" probability="0.5" from="16to08" to="00to10"/>
+	<flow id="16to11_7" color="blue" begin="1201" end="1400" probability="0.5" from="16to08" to="01to11"/>
+	<flow id="16to12_7" color="blue" begin="1201" end="1400" probability="0.5" from="16to08" to="02to12"/>
+	<flow id="17to10_7" color="blue" begin="1201" end="1400" probability="0.5" from="17to07" to="00to10"/>
+	<flow id="17to11_7" color="blue" begin="1201" end="1400" probability="0.5" from="17to07" to="01to11"/>
+	<flow id="17to12_7" color="blue" begin="1201" end="1400" probability="0.5" from="17to07" to="02to12"/>
+	<flow id="18to10_7" color="blue" begin="1201" end="1400" probability="0.5" from="18to06" to="00to10"/>
+	<flow id="18to11_7" color="blue" begin="1201" end="1400" probability="0.5" from="18to06" to="01to11"/>
+	<flow id="18to12_7" color="blue" begin="1201" end="1400" probability="0.5" from="18to06" to="02to12"/>
+	<!-- W_to_E traffic -->
+	<!-- <flow id="19to13" color="orange" begin="1201" end="1400" probability="0.1" from="19to06" to="02to13"/>
+	<flow id="19to14" color="orange" begin="1201" end="1400" probability="0.1" from="19to06" to="05to14"/>
+	<flow id="19to15" color="orange" begin="1201" end="1400" probability="0.1" from="19to06" to="08to15"/>
+	<flow id="1ato13" color="orange" begin="1201" end="1400" probability="0.1" from="1ato03" to="02to13"/>
+	<flow id="1ato14" color="orange" begin="1201" end="1400" probability="0.1" from="1ato03" to="05to14"/>
+	<flow id="1ato15" color="orange" begin="1201" end="1400" probability="0.1" from="1ato03" to="08to15"/>
+	<flow id="1bto13" color="orange" begin="1201" end="1400" probability="0.1" from="1bto00" to="02to13"/>
+	<flow id="1bto14" color="orange" begin="1201" end="1400" probability="0.1" from="1bto00" to="05to14"/>
+	<flow id="1bto15" color="orange" begin="1201" end="1400" probability="0.1" from="1bto00" to="08to15"/> -->
+	<!-- E_to_W traffic -->
+	<flow id="13to19_7" color="green" begin="1201" end="1400" probability="0.25" from="13to02" to="06to19"/>
+	<flow id="13to1a_7" color="green" begin="1201" end="1400" probability="0.25" from="13to02" to="03to1a"/>
+	<flow id="13to1b_7" color="green" begin="1201" end="1400" probability="0.25" from="13to02" to="00to1b"/>
+	<flow id="14to19_7" color="green" begin="1201" end="1400" probability="0.25" from="14to05" to="06to19"/>
+	<flow id="14to1a_7" color="green" begin="1201" end="1400" probability="0.25" from="14to05" to="03to1a"/>
+	<flow id="14to1b_7" color="green" begin="1201" end="1400" probability="0.25" from="14to05" to="00to1b"/>
+	<flow id="15to19_7" color="green" begin="1201" end="1400" probability="0.25" from="15to08" to="06to19"/>
+	<flow id="15to1a_7" color="green" begin="1201" end="1400" probability="0.25" from="15to08" to="03to1a"/>
+	<flow id="15to1b_7" color="green" begin="1201" end="1400" probability="0.25" from="15to08" to="00to1b"/>
+
+
+
+	<!-- Flow from 1401 to 1600 simulation steps -->
+	<!-- N_to_S traffic -->
+	<!-- <flow id="10to18" color="red" begin="1401" end="1600" probability="0.1" from="10to00" to="06to18"/>
+	<flow id="10to17" color="red" begin="1401" end="1600" probability="0.1" from="10to00" to="07to17"/>
+	<flow id="10to16" color="red" begin="1401" end="1600" probability="0.1" from="10to00" to="08to16"/>
+	<flow id="11to18" color="red" begin="1401" end="1600" probability="0.1" from="11to01" to="06to18"/>
+	<flow id="11to17" color="red" begin="1401" end="1600" probability="0.1" from="11to01" to="07to17"/>
+	<flow id="11to16" color="red" begin="1401" end="1600" probability="0.1" from="11to01" to="08to16"/>
+	<flow id="12to18" color="red" begin="1401" end="1600" probability="0.1" from="12to02" to="06to18"/>
+	<flow id="12to17" color="red" begin="1401" end="1600" probability="0.1" from="12to02" to="07to17"/>
+	<flow id="12to16" color="red" begin="1401" end="1600" probability="0.1" from="12to02" to="08to16"/> -->
+	<!-- S_to_N traffic -->
+	<flow id="16to10_8" color="blue" begin="1401" end="1600" probability="0.4" from="16to08" to="00to10"/>
+	<flow id="16to11_8" color="blue" begin="1401" end="1600" probability="0.4" from="16to08" to="01to11"/>
+	<flow id="16to12_8" color="blue" begin="1401" end="1600" probability="0.4" from="16to08" to="02to12"/>
+	<flow id="17to10_8" color="blue" begin="1401" end="1600" probability="0.4" from="17to07" to="00to10"/>
+	<flow id="17to11_8" color="blue" begin="1401" end="1600" probability="0.4" from="17to07" to="01to11"/>
+	<flow id="17to12_8" color="blue" begin="1401" end="1600" probability="0.4" from="17to07" to="02to12"/>
+	<flow id="18to10_8" color="blue" begin="1401" end="1600" probability="0.4" from="18to06" to="00to10"/>
+	<flow id="18to11_8" color="blue" begin="1401" end="1600" probability="0.4" from="18to06" to="01to11"/>
+	<flow id="18to12_8" color="blue" begin="1401" end="1600" probability="0.4" from="18to06" to="02to12"/>
+	<!-- W_to_E traffic -->
+	<!-- <flow id="19to13" color="orange" begin="1401" end="1600" probability="0.1" from="19to06" to="02to13"/>
+	<flow id="19to14" color="orange" begin="1401" end="1600" probability="0.1" from="19to06" to="05to14"/>
+	<flow id="19to15" color="orange" begin="1401" end="1600" probability="0.1" from="19to06" to="08to15"/>
+	<flow id="1ato13" color="orange" begin="1401" end="1600" probability="0.1" from="1ato03" to="02to13"/>
+	<flow id="1ato14" color="orange" begin="1401" end="1600" probability="0.1" from="1ato03" to="05to14"/>
+	<flow id="1ato15" color="orange" begin="1401" end="1600" probability="0.1" from="1ato03" to="08to15"/>
+	<flow id="1bto13" color="orange" begin="1401" end="1600" probability="0.1" from="1bto00" to="02to13"/>
+	<flow id="1bto14" color="orange" begin="1401" end="1600" probability="0.1" from="1bto00" to="05to14"/>
+	<flow id="1bto15" color="orange" begin="1401" end="1600" probability="0.1" from="1bto00" to="08to15"/> -->
+	<!-- E_to_W traffic -->
+	<flow id="13to19_8" color="green" begin="1401" end="1600" probability="0.15" from="13to02" to="06to19"/>
+	<flow id="13to1a_8" color="green" begin="1401" end="1600" probability="0.15" from="13to02" to="03to1a"/>
+	<flow id="13to1b_8" color="green" begin="1401" end="1600" probability="0.15" from="13to02" to="00to1b"/>
+	<flow id="14to19_8" color="green" begin="1401" end="1600" probability="0.15" from="14to05" to="06to19"/>
+	<flow id="14to1a_8" color="green" begin="1401" end="1600" probability="0.15" from="14to05" to="03to1a"/>
+	<flow id="14to1b_8" color="green" begin="1401" end="1600" probability="0.15" from="14to05" to="00to1b"/>
+	<flow id="15to19_8" color="green" begin="1401" end="1600" probability="0.15" from="15to08" to="06to19"/>
+	<flow id="15to1a_8" color="green" begin="1401" end="1600" probability="0.15" from="15to08" to="03to1a"/>
+	<flow id="15to1b_8" color="green" begin="1401" end="1600" probability="0.15" from="15to08" to="00to1b"/>
+
+
+
+	<!-- Flow from 1601 to 1800 simulation steps -->
+	<!-- N_to_S traffic -->
+	<!-- <flow id="10to18" color="red" begin="1601" end="1800" probability="0.1" from="10to00" to="06to18"/>
+	<flow id="10to17" color="red" begin="1601" end="1800" probability="0.1" from="10to00" to="07to17"/>
+	<flow id="10to16" color="red" begin="1601" end="1800" probability="0.1" from="10to00" to="08to16"/>
+	<flow id="11to18" color="red" begin="1601" end="1800" probability="0.1" from="11to01" to="06to18"/>
+	<flow id="11to17" color="red" begin="1601" end="1800" probability="0.1" from="11to01" to="07to17"/>
+	<flow id="11to16" color="red" begin="1601" end="1800" probability="0.1" from="11to01" to="08to16"/>
+	<flow id="12to18" color="red" begin="1601" end="1800" probability="0.1" from="12to02" to="06to18"/>
+	<flow id="12to17" color="red" begin="1601" end="1800" probability="0.1" from="12to02" to="07to17"/>
+	<flow id="12to16" color="red" begin="1601" end="1800" probability="0.1" from="12to02" to="08to16"/> -->
+	<!-- S_to_N traffic -->
+	<flow id="16to10_9" color="blue" begin="1601" end="1800" probability="0.1" from="16to08" to="00to10"/>
+	<flow id="16to11_9" color="blue" begin="1601" end="1800" probability="0.1" from="16to08" to="01to11"/>
+	<flow id="16to12_9" color="blue" begin="1601" end="1800" probability="0.1" from="16to08" to="02to12"/>
+	<flow id="17to10_9" color="blue" begin="1601" end="1800" probability="0.1" from="17to07" to="00to10"/>
+	<flow id="17to11_9" color="blue" begin="1601" end="1800" probability="0.1" from="17to07" to="01to11"/>
+	<flow id="17to12_9" color="blue" begin="1601" end="1800" probability="0.1" from="17to07" to="02to12"/>
+	<flow id="18to10_9" color="blue" begin="1601" end="1800" probability="0.1" from="18to06" to="00to10"/>
+	<flow id="18to11_9" color="blue" begin="1601" end="1800" probability="0.1" from="18to06" to="01to11"/>
+	<flow id="18to12_9" color="blue" begin="1601" end="1800" probability="0.1" from="18to06" to="02to12"/>
+	<!-- W_to_E traffic -->
+	<!-- <flow id="19to13" color="orange" begin="1601" end="1800" probability="0.1" from="19to06" to="02to13"/>
+	<flow id="19to14" color="orange" begin="1601" end="1800" probability="0.1" from="19to06" to="05to14"/>
+	<flow id="19to15" color="orange" begin="1601" end="1800" probability="0.1" from="19to06" to="08to15"/>
+	<flow id="1ato13" color="orange" begin="1601" end="1800" probability="0.1" from="1ato03" to="02to13"/>
+	<flow id="1ato14" color="orange" begin="1601" end="1800" probability="0.1" from="1ato03" to="05to14"/>
+	<flow id="1ato15" color="orange" begin="1601" end="1800" probability="0.1" from="1ato03" to="08to15"/>
+	<flow id="1bto13" color="orange" begin="1601" end="1800" probability="0.1" from="1bto00" to="02to13"/>
+	<flow id="1bto14" color="orange" begin="1601" end="1800" probability="0.1" from="1bto00" to="05to14"/>
+	<flow id="1bto15" color="orange" begin="1601" end="1800" probability="0.1" from="1bto00" to="08to15"/> -->
+	<!-- E_to_W traffic -->
+	<flow id="13to19_9" color="green" begin="1601" end="1800" probability="0.1" from="13to02" to="06to19"/>
+	<flow id="13to1a_9" color="green" begin="1601" end="1800" probability="0.1" from="13to02" to="03to1a"/>
+	<flow id="13to1b_9" color="green" begin="1601" end="1800" probability="0.1" from="13to02" to="00to1b"/>
+	<flow id="14to19_9" color="green" begin="1601" end="1800" probability="0.1" from="14to05" to="06to19"/>
+	<flow id="14to1a_9" color="green" begin="1601" end="1800" probability="0.1" from="14to05" to="03to1a"/>
+	<flow id="14to1b_9" color="green" begin="1601" end="1800" probability="0.1" from="14to05" to="00to1b"/>
+	<flow id="15to19_9" color="green" begin="1601" end="1800" probability="0.1" from="15to08" to="06to19"/>
+	<flow id="15to1a_9" color="green" begin="1601" end="1800" probability="0.1" from="15to08" to="03to1a"/>
+	<flow id="15to1b_9" color="green" begin="1601" end="1800" probability="0.1" from="15to08" to="00to1b"/>
+
+
+</routes>

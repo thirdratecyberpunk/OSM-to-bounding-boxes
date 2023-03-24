@@ -1,0 +1,14 @@
+<configuration>
+	<input>
+		<node-files value="Grid3by3.nod.xml"/>
+		<edge-files value="Grid3by3.edg.xml"/>
+	</input>
+
+	<output>
+		<output-file value="Grid3by3.net.xml"/>
+	</output>
+
+	<report>s
+		<verbose value="true"/>
+	</report>
+</configuration>

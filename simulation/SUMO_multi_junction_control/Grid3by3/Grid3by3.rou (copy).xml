@@ -1,0 +1,50 @@
+<routes>
+	<vType id="typeCar" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" guiShape="passenger"/>
+
+	<!-- N_to_S traffic -->
+	<flow id="10to18" color="red" begin="0" end="10000" probability="0.5" from="10to00" to="06to18"/>
+	<flow id="10to17" color="red" begin="0" end="10000" probability="0.5" from="10to00" to="07to17"/>
+	<flow id="10to16" color="red" begin="0" end="10000" probability="0.5" from="10to00" to="08to16"/>
+	<flow id="11to18" color="red" begin="0" end="10000" probability="0.5" from="11to01" to="06to18"/>
+	<flow id="11to17" color="red" begin="0" end="10000" probability="0.5" from="11to01" to="07to17"/>
+	<flow id="11to16" color="red" begin="0" end="10000" probability="0.5" from="11to01" to="08to16"/>
+	<flow id="12to18" color="red" begin="0" end="10000" probability="0.5" from="12to02" to="06to18"/>
+	<flow id="12to17" color="red" begin="0" end="10000" probability="0.5" from="12to02" to="07to17"/>
+	<flow id="12to16" color="red" begin="0" end="10000" probability="0.5" from="12to02" to="08to16"/>
+
+	<!-- S_to_N traffic -->
+	<!-- <flow id="16to10" color="blue" begin="0" end="10000" probability="0.5" from="16to08" to="00to10"/>
+	<flow id="16to11" color="blue" begin="0" end="10000" probability="0.5" from="16to08" to="01to11"/>
+	<flow id="16to12" color="blue" begin="0" end="10000" probability="0.5" from="16to08" to="02to12"/>
+	<flow id="17to10" color="blue" begin="0" end="10000" probability="0.5" from="17to07" to="00to10"/>
+	<flow id="17to11" color="blue" begin="0" end="10000" probability="0.5" from="17to07" to="01to11"/>
+	<flow id="17to12" color="blue" begin="0" end="10000" probability="0.5" from="17to07" to="02to12"/>
+	<flow id="18to10" color="blue" begin="0" end="10000" probability="0.5" from="18to06" to="00to10"/>
+	<flow id="18to11" color="blue" begin="0" end="10000" probability="0.5" from="18to06" to="01to11"/>
+	<flow id="18to12" color="blue" begin="0" end="10000" probability="0.5" from="18to06" to="02to12"/> -->
+
+	<!-- W_to_E traffic -->
+	<flow id="19to13" color="orange" begin="0" end="10000" probability="0.5" from="19to06" to="02to13"/>
+	<flow id="19to14" color="orange" begin="0" end="10000" probability="0.5" from="19to06" to="05to14"/>
+	<flow id="19to15" color="orange" begin="0" end="10000" probability="0.5" from="19to06" to="08to15"/>
+	<flow id="1ato13" color="orange" begin="0" end="10000" probability="0.5" from="1ato03" to="02to13"/>
+	<flow id="1ato14" color="orange" begin="0" end="10000" probability="0.5" from="1ato03" to="05to14"/>
+	<flow id="1ato15" color="orange" begin="0" end="10000" probability="0.5" from="1ato03" to="08to15"/>
+	<flow id="1bto13" color="orange" begin="0" end="10000" probability="0.5" from="1bto00" to="02to13"/>
+	<flow id="1bto14" color="orange" begin="0" end="10000" probability="0.5" from="1bto00" to="05to14"/>
+	<flow id="1bto15" color="orange" begin="0" end="10000" probability="0.5" from="1bto00" to="08to15"/>
+
+	<!-- E_to_W traffic -->
+	<!-- <flow id="13to19" color="green" begin="0" end="10000" probability="0.5" from="13to02" to="06to19"/>
+	<flow id="13to1a" color="green" begin="0" end="10000" probability="0.5" from="13to02" to="03to1a"/>
+	<flow id="13to1b" color="green" begin="0" end="10000" probability="0.5" from="13to02" to="00to1b"/>
+	<flow id="14to19" color="green" begin="0" end="10000" probability="0.5" from="14to05" to="06to19"/>
+	<flow id="14to1a" color="green" begin="0" end="10000" probability="0.5" from="14to05" to="03to1a"/>
+	<flow id="14to1b" color="green" begin="0" end="10000" probability="0.5" from="14to05" to="00to1b"/>
+	<flow id="15to19" color="green" begin="0" end="10000" probability="0.5" from="15to08" to="06to19"/>
+	<flow id="15to1a" color="green" begin="0" end="10000" probability="0.5" from="15to08" to="03to1a"/>
+	<flow id="15to1b" color="green" begin="0" end="10000" probability="0.5" from="15to08" to="00to1b"/> -->
+
+
+
+</routes>
