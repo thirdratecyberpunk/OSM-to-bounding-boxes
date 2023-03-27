@@ -13,6 +13,8 @@ from datetime import datetime
 from sumo_environment_discrete import SumoEnvironmentDiscrete
 from arguments import get_args
 
+from visualization import Visualization 
+
 class DQN_Linear(nn.Module):
     def __init__(self, n_obs, n_actions):
         super(DQN_Linear, self).__init__()
@@ -57,6 +59,8 @@ class DQN_agent_discrete:
         self.n_actions = env.get_action_space()
         self.n_obs = env.get_obs_space()
         self.num_junctions = env.get_num_traffic_lights()
+        self.episode_return_all = []
+        self.episode_avg_traffic_load_all = []
         print('Environment observation space: {}'.format(self.n_obs))
         print('Environment action space: {}'.format(self.n_actions))
         print('Number of junctions: {}'.format(self.num_junctions))
@@ -71,6 +75,10 @@ class DQN_agent_discrete:
         self.target_net = []
         self.optimizer = []
         self.buffer = []
+
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print(self.device)
+
         for i in range(self.num_junctions):
             if self.args.fullobs:
                 self.policy_net.append(DQN_Linear(self.n_obs * self.num_junctions, self.n_actions))
@@ -92,8 +100,8 @@ class DQN_agent_discrete:
 
     def learn(self):
         # env.reset()
-        episode_return_all = []
-        episode_avg_traffic_load_all = []
+        self.episode_return_all = []
+        self.episode_avg_traffic_load_all = []
         print('Learning process starts. Total episodes: {}'.format(self.args.num_episodes))
         for episode in range(self.args.num_episodes):
             # Play an episode
@@ -128,15 +136,9 @@ class DQN_agent_discrete:
                 # Store episode data into the buffers
                 for junction_id in range(self.num_junctions):
                     # save the timestep transitions into the replay buffer
-                    # self.buffer[junction_id].push(obs, actions_all[junction_id], obs_new, 0.8*reward[junction_id] + 0.2*reward_overall)
                     self.buffer[junction_id].push(obs[junction_id], actions_all[junction_id], obs_new[junction_id], reward[junction_id])
-                    # self.buffer[junction_id].push(obs, actions_all[junction_id], obs_new, reward[junction_id])
 
                 if self.args.fullobs:
-                    # index = np.arange(0, self.num_junctions, 1, dtype=int)
-                    # index *= self.n_obs
-                    # last_action = obs[0, index]
-
                     index = np.arange(0, self.num_junctions, 1, dtype=int)
                     last_action = obs[index, index * self.n_obs]
                 else:
@@ -166,10 +168,10 @@ class DQN_agent_discrete:
             print('[{}] Episode {} finished. Episode return: {}'.format(datetime.now(), episode, rewards_sum))
             # # print('[{}] Episode {} finished. Reward total J1: {}, J2: {}, J3: {}, J4: {}, traffic_load: {}' \
             # #       .format(datetime.now(), episode, reward_sum_J1, reward_sum_J2, reward_sum_J3, reward_sum_J4, traffic_load_sum))
-            episode_return_all.append(rewards_sum)
-            episode_avg_traffic_load_all.append(traffic_load_sum/self.args.episode_length)
-            np.save(self.save_path + '/DiscreteRL_episode_return_queue_reward_flowprob0.5.npy', episode_return_all)
-            np.save(self.save_path + '/DiscreteRL_avg_traffic_load_queue_reward_flowprob0.5.npy', episode_avg_traffic_load_all)
+            self.episode_return_all.append(rewards_sum)
+            self.episode_avg_traffic_load_all.append(traffic_load_sum/self.args.episode_length)
+            np.save(self.save_path + '/DiscreteRL_episode_return_queue_reward_flowprob0.5.npy', self.episode_return_all)
+            np.save(self.save_path + '/DiscreteRL_avg_traffic_load_queue_reward_flowprob0.5.npy', self.episode_avg_traffic_load_all)
 
             for i in range(self.num_junctions):
                 torch.save(self.policy_net[i].state_dict(), self.save_path + '/DiscreteRL_models/DiscreteRL_policy_net_junction' + str(i) + '_flowprob0.5.pt')
@@ -177,20 +179,9 @@ class DQN_agent_discrete:
         print('Learning process finished')
 
     def obs_transfer_full(self, obs):
-        # obs_combined = obs.flatten().copy()
-        # # print(obs_combined)
-        # obs_full = []
-        # for junction_id in range(self.num_junctions):
-        #     obs_full.append(obs_combined)
-        # obs_full = np.array(obs_full)
-        # # print(obs_full)
-        # return obs_full
-
         obs_full = np.zeros([self.num_junctions, self.num_junctions*self.n_obs], dtype=int)
         for junction_id in range(self.num_junctions):
             obs_full[junction_id, junction_id*self.n_obs:(junction_id+1)*self.n_obs] = obs[junction_id].copy()
-        # print(obs_full)
-        # print(obs_full.shape)
         return obs_full
 
     def _preproc_inputs(self, input):
@@ -217,13 +208,6 @@ class DQN_agent_discrete:
                 return action
         else:
             return random.randrange(self.n_actions)
-
-    # def _select_action_random(self):
-    #     return random.randrange(self.n_actions)
-    #
-    # def _select_action_inorder(self, timestep):
-    #     action = (timestep % (self.n_actions))
-    #     return action
 
     def _optimize_model(self, batch_size, junction_id):
         states, actions, next_states, rewards = Transition(*zip(*self.buffer[junction_id].sample(batch_size)))
@@ -258,6 +242,11 @@ if __name__ == '__main__':
                                   net_file='RussianJunction/osm.net.xml',
                                     cfg='RussianJunction/osm.sumocfg')
     
+    visualization = Visualization(
+        "yingyi_simulation_results", 
+        dpi=96
+    )
+
     random.seed(args.seed)
     np.random.seed(args.seed)
     if args.cuda:
@@ -266,3 +255,15 @@ if __name__ == '__main__':
     trainer = DQN_agent_discrete(args, env)
     print('Run training with seed {}'.format(args.seed))
     trainer.learn()
+
+    visualization.plot_single_agent(data=trainer.episode_return_all,
+                    filename='reward',
+                    xlabel='Episode',
+                    ylabel='Episode return value',
+                    agent="DQN Model")
+    
+    visualization.plot_single_agent(data=trainer.episode_avg_traffic_load_all,
+                    filename='avg_traffic_load',
+                    xlabel='Episode',
+                    ylabel='Average traffic load for junction',
+                    agent="DQN Model")
