@@ -13,29 +13,6 @@ from datetime import datetime
 from sumo_environment_discrete import SumoEnvironmentDiscrete
 from arguments import get_args
 
-
-# class DQN_Conv(nn.Module):
-#     def __init__(self, n_actions):
-#         super(DQN, self).__init__()
-#         self.conv1 = nn.Conv2d(3, 16, kernel_size=5, stride=2)
-#         self.bn1 = nn.BatchNorm2d(16)
-#         self.conv2 = nn.Conv2d(16, 32, kernel_size=5, stride=2)
-#         self.bn2 = nn.BatchNorm2d(32)
-#         self.conv3 = nn.Conv2d(32, 32, kernel_size=5, stride=2)
-#         self.bn3 = nn.BatchNorm2d(32)
-#         self.conv4 = nn.Conv2d(32, 64, kernel_size=5, stride=2)
-#         self.bn4 = nn.BatchNorm2d(64)
-#         self.head = nn.Linear(576, n_actions)
-#         # self.saved_log_probs = []
-#         # self.basic_rewards = []
-#
-#     def forward(self, x):
-#         x = F.relu(self.bn1(self.conv1(x)))
-#         x = F.relu(self.bn2(self.conv2(x)))
-#         x = F.relu(self.bn3(self.conv3(x)))
-#         x = F.relu(self.bn4(self.conv4(x)))
-#         return self.head(x.view(x.size(0), -1))
-
 class DQN_Linear(nn.Module):
     def __init__(self, n_obs, n_actions):
         super(DQN_Linear, self).__init__()
@@ -49,17 +26,7 @@ class DQN_Linear(nn.Module):
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
         return self.head(x)
-
-# class DQN_Linear(nn.Module):
-#     def __init__(self, n_obs, n_actions):
-#         super(DQN_Linear, self).__init__()
-#         self.fc1 = nn.Linear(n_obs, 64)
-#         self.head = nn.Linear(64, n_actions)
-#
-#     def forward(self, x):
-#         x = F.relu(self.fc1(x))
-#         return self.head(x)
-
+    
 Transition = namedtuple('Transition',
                         ('state', 'action', 'next_state', 'reward'))
 
@@ -111,18 +78,6 @@ class DQN_agent_discrete:
             else:
                 self.policy_net.append(DQN_Linear(self.n_obs, self.n_actions))
                 self.target_net.append(DQN_Linear(self.n_obs, self.n_actions))
-
-            # policy_net_model = self.policy_net[i].state_dict()
-            # discrete_model = torch.load(self.save_path + '/DiscreteRL_policy_net_junction' + str(i) + '_flowprob0.005.pt', map_location=lambda storage, loc: storage)
-            # policy_net_model['fc1.weight'].copy_(discrete_model['fc1.weight'].data)
-            # policy_net_model['fc1.bias'].copy_(discrete_model['fc1.bias'].data)
-            # policy_net_model['fc2.weight'].copy_(discrete_model['fc2.weight'].data)
-            # policy_net_model['fc2.bias'].copy_(discrete_model['fc2.bias'].data)
-            # policy_net_model['fc3.weight'].copy_(discrete_model['fc3.weight'].data)
-            # policy_net_model['fc3.bias'].copy_(discrete_model['fc3.bias'].data)
-            #
-            # self.policy_net[i].load_state_dict(policy_net_model)
-            # self.policy_net[i].eval()
 
             self.target_net[i].load_state_dict(self.policy_net[i].state_dict())
             self.target_net[i].eval()

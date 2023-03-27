@@ -1,4 +1,0 @@
-<configuration>
-    <net-file value="Grid3by3.net.xml"/>
-    <route-files value="Grid3by3_time_variant.rou.xml"/>
-</configuration>

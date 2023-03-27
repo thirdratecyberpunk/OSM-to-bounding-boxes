@@ -1,4 +1,0 @@
-<configuration>
-    <net-file value="Grid2by2.net.xml"/>
-    <route-files value="Grid2by2_time_variant.rou.xml"/>
-</configuration>

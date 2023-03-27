@@ -1,4 +1,0 @@
-<configuration>
-    <net-file value="SingleJunction.net.xml"/>
-    <route-files value="SingleJunction.rou.xml"/>
-</configuration>
