@@ -58,7 +58,7 @@ class Pretimed_agent_discrete:
             # rewards_sum = 0
             traffic_load_sum = 0
             for t in range(self.args.episode_length):
-                self._elapsed_duration = t
+                self._elapsed_duration += 1
                 actions_all = []
                 for junction_id in range(self.num_junctions):
                     obs_junction_tensor = self._preproc_inputs(obs[junction_id])
@@ -111,7 +111,6 @@ class Pretimed_agent_discrete:
         if self._elapsed_duration == self._duration:
             self._chosen_action = (self._chosen_action + 1) % self.n_actions
             self._elapsed_duration = 0
-        self._elapsed_duration += 1
         return self._chosen_action
 
 if __name__ == '__main__':
