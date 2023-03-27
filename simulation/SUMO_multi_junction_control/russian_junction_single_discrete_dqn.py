@@ -14,6 +14,7 @@ from sumo_environment_discrete import SumoEnvironmentDiscrete
 from arguments import get_args
 
 from visualization import Visualization 
+from utils import import_train_configuration, set_sumo, set_train_path, set_top_path
 
 class DQN_Linear(nn.Module):
     def __init__(self, n_obs, n_actions):
@@ -242,8 +243,10 @@ if __name__ == '__main__':
                                   net_file='RussianJunction/osm.net.xml',
                                     cfg='RussianJunction/osm.sumocfg')
     
+    path = set_top_path("yingyi_simulation_results", ['DQN'])
+
     visualization = Visualization(
-        "yingyi_simulation_results", 
+        path, 
         dpi=96
     )
 
@@ -260,10 +263,10 @@ if __name__ == '__main__':
                     filename='reward',
                     xlabel='Episode',
                     ylabel='Episode return value',
-                    agent="DQN Model")
+                    agent="DQN")
     
     visualization.plot_single_agent(data=trainer.episode_avg_traffic_load_all,
                     filename='avg_traffic_load',
                     xlabel='Episode',
                     ylabel='Average traffic load for junction',
-                    agent="DQN Model")
+                    agent="DQN")
