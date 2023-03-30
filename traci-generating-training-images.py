@@ -14,7 +14,7 @@ from skimage.io import imread, imsave
 from transforming import FootageTransformation
 
 import numpy as np
-from utils import set_sumo, generate_new_route_and_flow
+from simulation.SUMO_multi_junction_control.utils import set_sumo, generate_new_route_and_flow
 
 def pad_timestep(i):
     return str(i).zfill(len(str(timestep)))

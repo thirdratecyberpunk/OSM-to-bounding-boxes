@@ -13,8 +13,8 @@ import cv2
 class FootageTransformation:
     def __init__(self):
         # import the reference points from .csv files as float32s
-        self.dst = np.float32(np.genfromtxt('example_data/dst.csv', delimiter=',', encoding='utf-16'))
         self.src = np.float32(np.genfromtxt('example_data/src.csv', delimiter=',', encoding='utf-16'))
+        self.dst = np.float32(np.genfromtxt('example_data/dst.csv', delimiter=',', encoding='utf-16'))
         
         # image transformation from skimage
         self.camera_tform = transform.ProjectiveTransform()
@@ -66,8 +66,10 @@ class FootageTransformation:
 
         ax[0].imshow(to_transform, cmap=plt.cm.gray)
         ax[0].plot(self.dst[:, 0], self.dst[:, 1], '.r')
+        ax[0].set_xlabel("dst")
         ax[1].imshow(cctv_footage)
         ax[1].plot(self.src[:, 0], self.src[:, 1], '.r')
+        ax[1].set_xlabel("src")
         ax[2].imshow(warped, cmap=plt.cm.gray)
 
         plt.show()
